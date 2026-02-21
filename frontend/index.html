@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>f5academy — IT Академия</title>
+<title>Tech Academy — IT Академия</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Onest:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* ── CSS VARIABLES (MIDNIGHT CARBON) ── */
@@ -308,9 +308,7 @@ input, select { font-family: inherit; }
   box-shadow: 0 12px 40px rgba(232, 255, 71, 0.1);
 }
 .course-card-img {
-  height: 140px;
-  background: var(--surface2);
-  position: relative;
+  height: 300px;
   overflow: hidden;
 }
 .course-card-img-bar {
@@ -431,40 +429,76 @@ input, select { font-family: inherit; }
 .guarantees-sub {
   font-size: 14px;
   color: var(--text2);
-  margin-bottom: 36px;
+  margin-bottom: 48px;
 }
-.guarantees-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  text-align: left;
+
+/* DIAGONAL ZIGZAG STEPS — absolute layout */
+.guarantees-zigzag {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  height: 780px;
+  margin: 0 auto 48px;
 }
-.guarantee-step {
+
+/* Full-size SVG arrow overlay */
+.zigzag-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+
+.zigzag-step {
+  position: absolute;
+  width: 46%;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
+  border-left: 3px solid var(--accent);
+  border-radius: 16px;
+  padding: 28px 28px;
+  text-align: left;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  z-index: 2;
 }
-.guarantee-step-num {
+/* Step 1 — top left */
+.zigzag-step:nth-child(2) { top: 0; left: 0; }
+/* Step 2 — middle right */
+.zigzag-step:nth-child(3) { top: 290px; right: 0; }
+/* Step 3 — bottom left */
+.zigzag-step:nth-child(4) { top: 580px; left: 0; }
+
+.zigzag-step:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 28px rgba(232,255,71,0.12);
+}
+.zigzag-step-num {
   font-family: 'Space Mono', monospace;
   font-size: 11px;
   color: var(--accent);
   margin-bottom: 12px;
+  letter-spacing: 1.5px;
+  opacity: 0.8;
 }
-.guarantee-step-title {
+.zigzag-step-title {
   font-family: 'Syne', sans-serif;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+  color: var(--text);
 }
-.guarantee-step-text {
-  font-size: 13px;
+.zigzag-step-text {
+  font-size: 14px;
   color: var(--text2);
-  line-height: 1.6;
+  line-height: 1.75;
 }
+
 .guarantees-cta {
   display: inline-block;
-  margin-top: 36px;
+  margin-top: 0;
   background: var(--accent);
   color: var(--bg);
   font-family: 'Syne', sans-serif;
@@ -478,40 +512,157 @@ input, select { font-family: inherit; }
 }
 .guarantees-cta:hover { opacity: 0.85; }
 
-/* ── FORM ── */
-.form-section {
+/* ── CONTACT SECTION (QR + Modal) ── */
+.contact-section {
   padding: 80px 24px;
 }
-.form-wrapper {
-  max-width: 540px;
+.contact-block {
+  max-width: 1140px;
   margin: 0 auto;
-  text-align: center;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 56px 64px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
 }
-.form-title {
+.contact-block::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: -60px;
+  width: 250px; height: 250px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.05;
+  filter: blur(70px);
+  pointer-events: none;
+}
+.contact-left {
+  flex: 0 1 380px;
+}
+.contact-title {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(24px, 3.5vw, 32px);
+  font-size: clamp(24px, 3vw, 32px);
   font-weight: 800;
   letter-spacing: -0.5px;
+  line-height: 1.2;
   margin-bottom: 12px;
 }
-.form-sub {
-  font-size: 14px;
+.contact-title em { color: var(--accent); font-style: normal; }
+.contact-sub {
+  font-size: 15px;
   color: var(--text2);
-  margin-bottom: 36px;
+  line-height: 1.65;
+  margin-bottom: 32px;
+  max-width: 340px;
 }
-.form-fields {
+.contact-lead-btn {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 16px 36px;
+  border-radius: 12px;
+  transition: opacity 0.25s, transform 0.25s;
+  cursor: pointer;
+  animation: pulse 2.5s infinite;
+  border: none;
+}
+.contact-lead-btn:hover { opacity: 0.85; transform: scale(1.02); }
+.contact-right {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 10px;
+}
+.qr-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  display: inline-block;
+}
+.qr-box img {
+  display: block;
+  width: 160px;
+  height: 160px;
+}
+.qr-hint {
+  font-size: 12px;
+  color: var(--text3);
+  text-align: center;
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  animation: fadeSlideUp 0.35s ease-out;
+}
+.modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: var(--surface2);
+  border: none;
+  color: var(--text2);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.2s, background 0.2s;
+  line-height: 1;
+}
+.modal-close:hover { color: var(--text); background: var(--border); }
+.modal-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+.modal-sub {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 28px;
+}
+.modal-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 .form-input,
 .form-select {
   width: 100%;
-  background: var(--surface);
+  background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 16px 20px;
-  font-size: 15px;
+  padding: 15px 18px;
+  font-size: 14px;
   color: var(--text);
   outline: none;
   transition: border-color 0.25s;
@@ -524,34 +675,28 @@ input, select { font-family: inherit; }
   -webkit-appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%238888A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 20px center;
+  background-position: right 18px center;
   cursor: pointer;
 }
-.form-select option {
-  background: var(--surface);
-  color: var(--text);
-}
+.form-select option { background: var(--surface); color: var(--text); }
 .form-submit {
   width: 100%;
   background: var(--accent);
   color: var(--bg);
   font-family: 'Syne', sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
-  padding: 18px;
+  padding: 16px;
   border-radius: 12px;
   transition: opacity 0.25s;
   position: relative;
+  margin-top: 4px;
 }
 .form-submit:hover { opacity: 0.85; }
-.form-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+.form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 .form-submit .loader {
   display: none;
-  width: 20px;
-  height: 20px;
+  width: 20px; height: 20px;
   border: 2px solid var(--bg);
   border-top-color: transparent;
   border-radius: 50%;
@@ -561,25 +706,34 @@ input, select { font-family: inherit; }
 .form-submit.loading .btn-text { visibility: hidden; }
 .form-submit.loading .loader { display: block; position: absolute; top: 50%; left: 50%; margin: -10px 0 0 -10px; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
 .form-message {
-  margin-top: 16px;
-  font-size: 14px;
-  padding: 12px 20px;
+  margin-top: 14px;
+  font-size: 13px;
+  padding: 12px 16px;
   border-radius: 10px;
   display: none;
 }
-.form-message.success {
-  display: block;
-  background: var(--badge-bg);
-  color: var(--accent);
-  border: 1px solid rgba(232, 255, 71, 0.2);
+.form-message.success { display: block; background: var(--badge-bg); color: var(--accent); border: 1px solid rgba(232,255,71,0.2); }
+.form-message.error { display: block; background: rgba(255,60,60,0.1); color: #ff6b6b; border: 1px solid rgba(255,60,60,0.2); }
+
+/* ── TELEGRAM FLOAT BUTTON ── */
+.tg-float {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  width: 52px; height: 52px;
+  background: #229ED9;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1500;
+  box-shadow: 0 4px 20px rgba(34,158,217,0.45);
+  transition: transform 0.25s, box-shadow 0.25s;
 }
-.form-message.error {
-  display: block;
-  background: rgba(255, 60, 60, 0.1);
-  color: #ff6b6b;
-  border: 1px solid rgba(255, 60, 60, 0.2);
+.tg-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(34,158,217,0.6);
+}
+.tg-float svg {
+  width: 26px; height: 26px; fill: #fff;
 }
 
 /* ── FOOTER ── */
@@ -654,8 +808,21 @@ input, select { font-family: inherit; }
   }
 
   .courses-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-  .guarantees-grid { grid-template-columns: 1fr; }
-  .guarantees-block { padding: 36px 24px; }
+  .guarantees-block { padding: 36px 20px; }
+  .guarantees-zigzag {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .zigzag-svg { display: none; }
+  .zigzag-step {
+    position: static;
+    width: 100%;
+    right: auto; left: auto; top: auto;
+  }
+  .contact-block { flex-direction: column; padding: 36px 24px; gap: 32px; }
+  .contact-left { flex: 1; }
 
   .footer-inner {
     grid-template-columns: 1fr;
@@ -674,7 +841,7 @@ input, select { font-family: inherit; }
 <!-- ═══ NAV ═══ -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">f<span>5</span>academy</a>
+    <a href="#" class="nav-logo">Tech<span>Academy</span></a>
     <div class="nav-links">
       <a href="#courses" class="nav-link">Курсы</a>
       <a href="#guarantees" class="nav-link">О нас</a>
@@ -734,31 +901,19 @@ input, select { font-family: inherit; }
     <!-- Card 1 -->
     <div class="course-card animate-on-scroll">
       <div class="course-card-img">
-        <div class="course-card-lines">
-          <div class="course-card-line a"></div>
-          <div class="course-card-line"></div>
-          <div class="course-card-line"></div>
-        </div>
-        <div class="course-card-dot"></div>
-        <div class="course-card-img-bar"></div>
+        <img src="images/course_analyst_1.png" alt="Системный аналитик" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="course-card-body">
         <div class="course-card-tag">Аналитик</div>
         <div class="course-card-title">Системный аналитик ISA</div>
-        <div class="course-card-salary">Зарплата: <strong>100–500k ₽</strong></div>
+        <div class="course-card-salary">Зарплата: <strong>200–500k ₽</strong></div>
         <a href="#form" class="course-card-btn">Записаться</a>
       </div>
     </div>
     <!-- Card 2 -->
     <div class="course-card animate-on-scroll">
       <div class="course-card-img">
-        <div class="course-card-lines">
-          <div class="course-card-line"></div>
-          <div class="course-card-line a"></div>
-          <div class="course-card-line"></div>
-        </div>
-        <div class="course-card-dot"></div>
-        <div class="course-card-img-bar"></div>
+        <img src="images/course_qa_1.png" alt="QA-Тестировщик" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="course-card-body">
         <div class="course-card-tag">Тестировщик</div>
@@ -770,13 +925,7 @@ input, select { font-family: inherit; }
     <!-- Card 3 -->
     <div class="course-card animate-on-scroll">
       <div class="course-card-img">
-        <div class="course-card-lines">
-          <div class="course-card-line"></div>
-          <div class="course-card-line"></div>
-          <div class="course-card-line a"></div>
-        </div>
-        <div class="course-card-dot"></div>
-        <div class="course-card-img-bar"></div>
+        <img src="images/course_flutter_1.png" alt="Flutter-разработчик" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <div class="course-card-body">
         <div class="course-card-tag">Разработчик</div>
@@ -793,35 +942,104 @@ input, select { font-family: inherit; }
   <div class="guarantees-block animate-on-scroll">
     <div class="guarantees-title">Не даём пустых гарантий.<br><em>Обучаем тому, что нужно</em></div>
     <div class="guarantees-sub">Реальная практика на каждом этапе обучения</div>
-    <div class="guarantees-grid">
-      <div class="guarantee-step">
-        <div class="guarantee-step-num">01 / ПРАКТИКА</div>
-        <div class="guarantee-step-title">Учим на практике</div>
-        <div class="guarantee-step-text">Домашка моделирует реальные рабочие ситуации — вы решаете задачи, а не зубрите теорию.</div>
+
+    <div class="guarantees-zigzag">
+
+      <!--
+        Container: max-width 860px, height 780px
+        Step width: 46% = ~396px
+        Step1: left=0..396,  top=0..~200   → bottom-right corner ≈ (396, 200)
+        Step2: left=464..860, top=290..~490 → top-left corner ≈ (464, 290)
+        Step3: left=0..396,  top=580..~780  → top-right corner ≈ (396, 580)
+
+        Arrow1: from (370, 205) → (470, 295)  [right-down diagonal]
+        Arrow2: from (490, 490) → (390, 580)  [left-down diagonal]
+      -->
+      <svg class="zigzag-svg" viewBox="0 0 860 780" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Arrowhead marker pointing right-down -->
+          <marker id="mrkr-rd" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+            <path d="M0,0.5 L8,4.5 L0,8.5 Z" fill="#E8FF47"/>
+          </marker>
+          <!-- Arrowhead marker pointing left-down -->
+          <marker id="mrkr-ld" markerWidth="9" markerHeight="9" refX="1" refY="4.5" orient="auto">
+            <path d="M8,0.5 L0,4.5 L8,8.5 Z" fill="#E8FF47"/>
+          </marker>
+        </defs>
+
+        <!-- Arrow 1: step1 bottom-right → step2 top-left -->
+        <line x1="372" y1="202" x2="468" y2="290"
+              stroke="#E8FF47" stroke-width="1.5" stroke-dasharray="7 5" opacity="0.45"
+              marker-end="url(#mrkr-rd)"/>
+
+        <!-- Arrow 2: step2 bottom-left → step3 top-right -->
+        <line x1="488" y1="490" x2="392" y2="578"
+              stroke="#E8FF47" stroke-width="1.5" stroke-dasharray="7 5" opacity="0.45"
+              marker-end="url(#mrkr-ld)"/>
+
+        <!-- Connection dots -->
+        <circle cx="372" cy="202" r="4.5" fill="#E8FF47" opacity="0.7"/>
+        <circle cx="468" cy="290" r="4.5" fill="#E8FF47" opacity="0.7"/>
+        <circle cx="488" cy="490" r="4.5" fill="#E8FF47" opacity="0.7"/>
+        <circle cx="392" cy="578" r="4.5" fill="#E8FF47" opacity="0.7"/>
+      </svg>
+
+      <!-- Step 1 — top left -->
+      <div class="zigzag-step">
+        <div class="zigzag-step-num">01 / ПРАКТИКА</div>
+        <div class="zigzag-step-title">Учим на практике</div>
+        <div class="zigzag-step-text">Вся домашка моделирует реальные рабочие ситуации — вы решаете задачи, а не зубрите теорию. Каждое задание проверяет наставник и даёт развёрнутую обратную связь.</div>
       </div>
-      <div class="guarantee-step">
-        <div class="guarantee-step-num">02 / ИНТЕРВЬЮ</div>
-        <div class="guarantee-step-title">Готовим к собеседованиям</div>
-        <div class="guarantee-step-text">Тестовые интервью перед трудоустройством — отработка ответов и уверенность.</div>
+
+      <!-- Step 2 — middle right -->
+      <div class="zigzag-step">
+        <div class="zigzag-step-num">02 / ИНТЕРВЬЮ</div>
+        <div class="zigzag-step-title">Готовим к собеседованиям</div>
+        <div class="zigzag-step-text">После обучения проводим тестовые собеседования в формате реального IT-интервью. Разбираем ошибки, отрабатываем ответы и добиваемся уверенности перед выходом на рынок.</div>
       </div>
-      <div class="guarantee-step">
-        <div class="guarantee-step-num">03 / РАБОТА</div>
-        <div class="guarantee-step-title">Ищем работу за вас</div>
-        <div class="guarantee-step-text">Составляем резюме и откликаемся на вакансии, пока вы доучиваете последний модуль.</div>
+
+      <!-- Step 3 — bottom left -->
+      <div class="zigzag-step">
+        <div class="zigzag-step-num">03 / РАБОТА</div>
+        <div class="zigzag-step-title">Ищем работу за вас</div>
+        <div class="zigzag-step-text">Не даём пустых гарантий трудоустройства — мы сами составляем резюме, откликаемся на вакансии и сопровождаем вас в первые месяцы на новом месте.</div>
       </div>
+
     </div>
-    <a href="#form" class="guarantees-cta">Выбрать курс</a>
+
+    <a href="#contact" class="guarantees-cta">Выбрать курс</a>
   </div>
 </section>
 
-<!-- ═══ FORM ═══ -->
-<section class="form-section" id="form">
-  <div class="form-wrapper animate-on-scroll">
-    <h2 class="form-title">Оставьте заявку</h2>
-    <p class="form-sub">Свяжемся с вами в течение 15 минут и поможем выбрать курс</p>
-    <form id="leadForm" class="form-fields" novalidate>
+<!-- ═══ CONTACT (QR + Modal) ═══ -->
+<section class="contact-section" id="contact">
+  <div class="contact-block animate-on-scroll">
+    <div class="contact-left">
+      <h2 class="contact-title">Напишите нам<br>в <em>Telegram</em></h2>
+      <p class="contact-sub">Отвечаем за 15 минут,<br>помогаем выбрать курс</p>
+      <button class="contact-lead-btn" id="openModal">Оставить заявку</button>
+    </div>
+    <div class="contact-right">
+      <div class="qr-box">
+        <!-- Замени data= на свою ссылку Telegram -->
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://t.me/s_wxw&bgcolor=ffffff&color=0D0D0F&qzone=1" alt="QR Telegram" width="160" height="160">
+      </div>
+      <p class="qr-hint">Отсканируй камерой телефона</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="closeModal">×</button>
+    <div class="modal-title">Оставить заявку</div>
+    <div class="modal-sub">Свяжемся в течение 15 минут</div>
+    <form id="leadForm" class="modal-fields" novalidate>
       <input type="text" class="form-input" name="name" placeholder="Ваше имя" required autocomplete="name">
       <input type="tel" class="form-input" name="phone" placeholder="Телефон" required autocomplete="tel">
+      <input type="email" class="form-input" name="email" placeholder="Email" autocomplete="email">
+      <input type="text" class="form-input" name="telegram" placeholder="Telegram (@ник)" autocomplete="off">
       <select class="form-select" name="course" required>
         <option value="" disabled selected>Выберите курс</option>
         <option value="system-analyst">Системный аналитик ISA</option>
@@ -835,13 +1053,21 @@ input, select { font-family: inherit; }
     </form>
     <div class="form-message" id="formMessage"></div>
   </div>
-</section>
+</div>
+
+<!-- ═══ TELEGRAM FLOAT ═══ -->
+<!-- Замени href на свою ссылку Telegram -->
+<a href="https://t.me/s_wxw" target="_blank" class="tg-float" title="Написать в Telegram">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.008 9.463c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.12 14.051l-2.948-.924c-.64-.203-.655-.64.136-.948l11.52-4.44c.533-.194 1.003.13.734.51z"/>
+  </svg>
+</a>
 
 <!-- ═══ FOOTER ═══ -->
 <footer class="footer">
   <div class="footer-inner">
     <div>
-      <div class="footer-logo">f<span>5</span>academy</div>
+      <div class="footer-logo">Tech<span>Academy</span></div>
       <div class="footer-desc">Онлайн IT-академия.<br>Обучаем с нуля до трудоустройства.</div>
     </div>
     <div class="footer-col">
@@ -863,7 +1089,7 @@ input, select { font-family: inherit; }
     </div>
   </div>
   <div class="footer-bottom">
-    <span>&copy; 2025 f5academy. Все права защищены.</span>
+    <span>&copy; 2026 Tech Academy. Все права защищены.</span>
     <span>Сделано с ❤ в России</span>
   </div>
 </footer>
@@ -874,10 +1100,8 @@ input, select { font-family: inherit; }
 
   /* ── NAV SCROLL ── */
   const nav = document.getElementById('nav');
-  let lastScroll = 0;
   window.addEventListener('scroll', function() {
     nav.classList.toggle('scrolled', window.scrollY > 40);
-    lastScroll = window.scrollY;
   }, { passive: true });
 
   /* ── BURGER MENU ── */
@@ -897,7 +1121,6 @@ input, select { font-family: inherit; }
   });
 
   /* ── INTERSECTION OBSERVER — FADE IN ── */
-  var animElements = document.querySelectorAll('.animate-on-scroll');
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
@@ -906,51 +1129,49 @@ input, select { font-family: inherit; }
       }
     });
   }, { threshold: 0.15 });
-  animElements.forEach(function(el) { observer.observe(el); });
+  document.querySelectorAll('.animate-on-scroll').forEach(function(el) { observer.observe(el); });
 
-  /* ── COUNT-UP ANIMATION ── */
-  var counters = document.querySelectorAll('.count');
+  /* ── COUNT-UP ── */
   var countObserver = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        animateCount(entry.target);
-        countObserver.unobserve(entry.target);
-      }
+      if (entry.isIntersecting) { animateCount(entry.target); countObserver.unobserve(entry.target); }
     });
   }, { threshold: 0.5 });
-  counters.forEach(function(el) { countObserver.observe(el); });
+  document.querySelectorAll('.count').forEach(function(el) { countObserver.observe(el); });
 
   function animateCount(el) {
     var target = parseFloat(el.dataset.target);
     var decimals = parseInt(el.dataset.decimals) || 0;
-    var useSeparator = el.dataset.separator || '';
-    var duration = 1500;
-    var start = 0;
-    var startTime = null;
-
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      var progress = Math.min((timestamp - startTime) / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3);
-      var current = start + (target - start) * eased;
-
-      if (decimals > 0) {
-        el.textContent = current.toFixed(decimals);
-      } else {
-        var val = Math.round(current);
-        if (useSeparator && val >= 1000) {
-          el.textContent = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, useSeparator);
-        } else {
-          el.textContent = val;
-        }
+    var useSep = el.dataset.separator || '';
+    var duration = 1500, startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var p = Math.min((ts - startTime) / duration, 1);
+      var e = 1 - Math.pow(1 - p, 3);
+      var cur = target * e;
+      if (decimals > 0) { el.textContent = cur.toFixed(decimals); }
+      else {
+        var v = Math.round(cur);
+        el.textContent = useSep && v >= 1000 ? v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, useSep) : v;
       }
-
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      }
+      if (p < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   }
+
+  /* ── MODAL ── */
+  var overlay = document.getElementById('modalOverlay');
+  document.getElementById('openModal').addEventListener('click', function() {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
   /* ── FORM SUBMISSION ── */
   var form = document.getElementById('leadForm');
@@ -960,14 +1181,13 @@ input, select { font-family: inherit; }
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     formMessage.className = 'form-message';
-    formMessage.style.display = 'none';
 
     var name = form.name.value.trim();
     var phone = form.phone.value.trim();
     var course = form.course.value;
 
     if (!name || !phone || !course) {
-      showMessage('error', 'Пожалуйста, заполните все поля.');
+      showMsg('error', 'Пожалуйста, заполните имя, телефон и выберите курс.');
       return;
     }
 
@@ -977,26 +1197,25 @@ input, select { font-family: inherit; }
     fetch('/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, phone: phone, course: course })
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        email: form.email ? form.email.value.trim() : '',
+        telegram: form.telegram ? form.telegram.value.trim() : '',
+        course: course
+      })
     })
-    .then(function(res) {
-      if (!res.ok) throw new Error('Ошибка сервера');
-      return res.json();
-    })
+    .then(function(res) { if (!res.ok) throw new Error(); return res.json(); })
     .then(function() {
-      showMessage('success', 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+      showMsg('success', '✅ Заявка отправлена! Свяжемся с вами в ближайшее время.');
       form.reset();
+      setTimeout(closeModal, 2500);
     })
-    .catch(function() {
-      showMessage('error', 'Не удалось отправить заявку. Попробуйте позже.');
-    })
-    .finally(function() {
-      submitBtn.disabled = false;
-      submitBtn.classList.remove('loading');
-    });
+    .catch(function() { showMsg('error', 'Не удалось отправить заявку. Попробуйте позже.'); })
+    .finally(function() { submitBtn.disabled = false; submitBtn.classList.remove('loading'); });
   });
 
-  function showMessage(type, text) {
+  function showMsg(type, text) {
     formMessage.textContent = text;
     formMessage.className = 'form-message ' + type;
   }
