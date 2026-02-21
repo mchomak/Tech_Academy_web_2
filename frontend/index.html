@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tech Academy — IT Академия</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Onest:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="config.js"></script>
 <style>
 /* ── CSS VARIABLES (MIDNIGHT CARBON) ── */
 :root {
@@ -29,7 +31,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Onest', sans-serif;
+  font-family: 'Rubik', sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -87,7 +89,7 @@ input, select { font-family: inherit; }
   height: 72px;
 }
 .nav-logo {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.5px;
@@ -108,7 +110,7 @@ input, select { font-family: inherit; }
 .nav-btn {
   background: var(--accent);
   color: var(--bg);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 13px;
   font-weight: 700;
   padding: 10px 24px;
@@ -155,7 +157,7 @@ input, select { font-family: inherit; }
 }
 .mobile-menu.open { display: flex; }
 .mobile-menu a {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 24px;
   font-weight: 700;
   color: var(--text);
@@ -202,7 +204,7 @@ input, select { font-family: inherit; }
   border-radius: 100px;
 }
 .hero h1 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: clamp(32px, 5vw, 52px);
   font-weight: 800;
   line-height: 1.1;
@@ -224,7 +226,7 @@ input, select { font-family: inherit; }
   display: inline-block;
   background: var(--accent);
   color: var(--bg);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 16px;
   font-weight: 700;
   padding: 18px 42px;
@@ -253,10 +255,11 @@ input, select { font-family: inherit; }
 }
 .hero-stat:last-child { border-right: none; }
 .hero-stat-val {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.5px;
+  white-space: nowrap;
 }
 .hero-stat-val .count { color: var(--accent); }
 .hero-stat-label {
@@ -271,7 +274,7 @@ input, select { font-family: inherit; }
   margin-bottom: 40px;
 }
 .section-label {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Rubik', sans-serif;
   font-size: 12px;
   color: var(--text3);
   letter-spacing: 2px;
@@ -279,7 +282,7 @@ input, select { font-family: inherit; }
   margin-bottom: 8px;
 }
 .section-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: clamp(24px, 3.5vw, 32px);
   font-weight: 800;
   letter-spacing: -0.5px;
@@ -350,7 +353,7 @@ input, select { font-family: inherit; }
 }
 .course-card-body { padding: 20px; }
 .course-card-tag {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Rubik', sans-serif;
   font-size: 11px;
   color: var(--accent);
   font-weight: 600;
@@ -359,7 +362,7 @@ input, select { font-family: inherit; }
   margin-bottom: 8px;
 }
 .course-card-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 6px;
@@ -377,7 +380,7 @@ input, select { font-family: inherit; }
   margin-top: 16px;
   background: var(--accent);
   color: var(--bg);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 12px;
   font-weight: 700;
   padding: 10px 20px;
@@ -415,7 +418,7 @@ input, select { font-family: inherit; }
   pointer-events: none;
 }
 .guarantees-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: clamp(22px, 3vw, 28px);
   font-weight: 800;
   line-height: 1.25;
@@ -476,7 +479,7 @@ input, select { font-family: inherit; }
   box-shadow: 0 4px 28px rgba(232,255,71,0.12);
 }
 .zigzag-step-num {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Rubik', sans-serif;
   font-size: 11px;
   color: var(--accent);
   margin-bottom: 12px;
@@ -484,7 +487,7 @@ input, select { font-family: inherit; }
   opacity: 0.8;
 }
 .zigzag-step-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 10px;
@@ -501,7 +504,7 @@ input, select { font-family: inherit; }
   margin-top: 0;
   background: var(--accent);
   color: var(--bg);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 15px;
   font-weight: 700;
   padding: 16px 36px;
@@ -545,7 +548,7 @@ input, select { font-family: inherit; }
   flex: 0 1 380px;
 }
 .contact-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: clamp(24px, 3vw, 32px);
   font-weight: 800;
   letter-spacing: -0.5px;
@@ -564,7 +567,7 @@ input, select { font-family: inherit; }
   display: inline-block;
   background: var(--accent);
   color: var(--bg);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 15px;
   font-weight: 700;
   padding: 16px 36px;
@@ -639,7 +642,7 @@ input, select { font-family: inherit; }
 }
 .modal-close:hover { color: var(--text); background: var(--border); }
 .modal-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.5px;
@@ -683,7 +686,7 @@ input, select { font-family: inherit; }
   width: 100%;
   background: var(--accent);
   color: var(--bg);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 15px;
   font-weight: 700;
   padding: 16px;
@@ -751,7 +754,7 @@ input, select { font-family: inherit; }
   align-items: start;
 }
 .footer-logo {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 22px;
   font-weight: 800;
   color: var(--text3);
@@ -765,7 +768,7 @@ input, select { font-family: inherit; }
   line-height: 1.6;
 }
 .footer-col-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Rubik', sans-serif;
   font-size: 13px;
   font-weight: 700;
   color: var(--text2);
@@ -845,9 +848,8 @@ input, select { font-family: inherit; }
     <div class="nav-links">
       <a href="#courses" class="nav-link">Курсы</a>
       <a href="#guarantees" class="nav-link">О нас</a>
-      <a href="#form" class="nav-link">Отзывы</a>
     </div>
-    <a href="#form" class="nav-btn nav-btn-desktop">Записаться</a>
+    <button class="nav-btn nav-btn-desktop" onclick="openModal()">Записаться</button>
     <button class="burger" id="burger" aria-label="Меню">
       <span></span><span></span><span></span>
     </button>
@@ -858,8 +860,7 @@ input, select { font-family: inherit; }
 <div class="mobile-menu" id="mobileMenu">
   <a href="#courses" class="mobile-link">Курсы</a>
   <a href="#guarantees" class="mobile-link">О нас</a>
-  <a href="#form" class="mobile-link">Отзывы</a>
-  <a href="#form" class="nav-btn">Записаться</a>
+  <button class="nav-btn" onclick="openModal()">Записаться</button>
 </div>
 
 <!-- ═══ HERO ═══ -->
@@ -870,7 +871,7 @@ input, select { font-family: inherit; }
   </div>
   <h1>Быстрое обучение<br>IT-профессиям<br><em>с зарплатой 80k+</em></h1>
   <p class="hero-sub">От нуля до первой зарплаты — без технических навыков и английского языка.</p>
-  <a href="#form" class="hero-cta">Выбрать курс</a>
+  <a href="#courses" class="hero-cta">Выбрать курс</a>
   <div class="hero-stats">
     <div class="hero-stat">
       <div class="hero-stat-val"><span class="count" data-target="3">0</span> мес</div>
@@ -907,7 +908,7 @@ input, select { font-family: inherit; }
         <div class="course-card-tag">Аналитик</div>
         <div class="course-card-title">Системный аналитик ISA</div>
         <div class="course-card-salary">Зарплата: <strong>200–500k ₽</strong></div>
-        <a href="#form" class="course-card-btn">Записаться</a>
+        <button class="course-card-btn" onclick="openModal('system-analyst')">Записаться</button>
       </div>
     </div>
     <!-- Card 2 -->
@@ -919,7 +920,7 @@ input, select { font-family: inherit; }
         <div class="course-card-tag">Тестировщик</div>
         <div class="course-card-title">QA-Тестировщик</div>
         <div class="course-card-salary">Зарплата: <strong>80–240k ₽</strong></div>
-        <a href="#form" class="course-card-btn">Записаться</a>
+        <button class="course-card-btn" onclick="openModal('qa')">Записаться</button>
       </div>
     </div>
     <!-- Card 3 -->
@@ -931,7 +932,7 @@ input, select { font-family: inherit; }
         <div class="course-card-tag">Разработчик</div>
         <div class="course-card-title">Flutter-разработчик</div>
         <div class="course-card-salary">Зарплата: <strong>100–300k ₽</strong></div>
-        <a href="#form" class="course-card-btn">Записаться</a>
+        <button class="course-card-btn" onclick="openModal('flutter')">Записаться</button>
       </div>
     </div>
   </div>
@@ -1007,7 +1008,7 @@ input, select { font-family: inherit; }
 
     </div>
 
-    <a href="#contact" class="guarantees-cta">Выбрать курс</a>
+    <a href="#courses" class="guarantees-cta">Выбрать курс</a>
   </div>
 </section>
 
@@ -1017,12 +1018,12 @@ input, select { font-family: inherit; }
     <div class="contact-left">
       <h2 class="contact-title">Напишите нам<br>в <em>Telegram</em></h2>
       <p class="contact-sub">Отвечаем за 15 минут,<br>помогаем выбрать курс</p>
-      <button class="contact-lead-btn" id="openModal">Оставить заявку</button>
+      <button class="contact-lead-btn" onclick="openModal()">Оставить заявку</button>
     </div>
     <div class="contact-right">
       <div class="qr-box">
-        <!-- Замени data= на свою ссылку Telegram -->
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://t.me/s_wxw&bgcolor=ffffff&color=0D0D0F&qzone=1" alt="QR Telegram" width="160" height="160">
+        <!-- Положи свой QR-код в images/qr-telegram.png -->
+        <img src="images/qr_telegram.png" alt="QR Telegram" width="160" height="160">
       </div>
       <p class="qr-hint">Отсканируй камерой телефона</p>
     </div>
@@ -1056,8 +1057,7 @@ input, select { font-family: inherit; }
 </div>
 
 <!-- ═══ TELEGRAM FLOAT ═══ -->
-<!-- Замени href на свою ссылку Telegram -->
-<a href="https://t.me/s_wxw" target="_blank" class="tg-float" title="Написать в Telegram">
+<a id="tg-float-link" href="#" target="_blank" class="tg-float" title="Написать в Telegram">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.008 9.463c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.12 14.051l-2.948-.924c-.64-.203-.655-.64.136-.948l11.52-4.44c.533-.194 1.003.13.734.51z"/>
   </svg>
@@ -1079,13 +1079,12 @@ input, select { font-family: inherit; }
     <div class="footer-col">
       <div class="footer-col-title">Компания</div>
       <a href="#guarantees">О нас</a>
-      <a href="#form">Контакты</a>
-      <a href="#">Блог</a>
+      <a id="footer-contacts-link" href="#">Контакты</a>
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Документы</div>
-      <a href="#">Политика конфиденциальности</a>
-      <a href="#">Договор оферты</a>
+      <a id="footer-privacy-link" href="#">Политика конфиденциальности</a>
+      <a id="footer-offer-link" href="#">Договор оферты</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -1098,22 +1097,39 @@ input, select { font-family: inherit; }
 (function() {
   'use strict';
 
+  /* ── APPLY CONFIG LINKS ── */
+  function applyConfig() {
+    if (typeof SITE_CONFIG === 'undefined') return;
+    // TG float button
+    var tgFloat = document.getElementById('tg-float-link');
+    if (tgFloat) tgFloat.href = SITE_CONFIG.telegram;
+    // Footer contacts
+    var footerContacts = document.getElementById('footer-contacts-link');
+    if (footerContacts) footerContacts.href = SITE_CONFIG.telegram;
+    // Footer docs
+    var privacy = document.getElementById('footer-privacy-link');
+    if (privacy) privacy.href = SITE_CONFIG.privacyPolicy;
+    var offer = document.getElementById('footer-offer-link');
+    if (offer) offer.href = SITE_CONFIG.offerContract;
+  }
+  applyConfig();
+
   /* ── NAV SCROLL ── */
-  const nav = document.getElementById('nav');
+  var nav = document.getElementById('nav');
   window.addEventListener('scroll', function() {
     nav.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
 
   /* ── BURGER MENU ── */
-  const burger = document.getElementById('burger');
-  const mobileMenu = document.getElementById('mobileMenu');
+  var burger = document.getElementById('burger');
+  var mobileMenu = document.getElementById('mobileMenu');
   burger.addEventListener('click', function() {
     burger.classList.toggle('active');
     mobileMenu.classList.toggle('open');
     document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
   });
-  mobileMenu.querySelectorAll('a').forEach(function(link) {
-    link.addEventListener('click', function() {
+  mobileMenu.querySelectorAll('a, button').forEach(function(el) {
+    el.addEventListener('click', function() {
       burger.classList.remove('active');
       mobileMenu.classList.remove('open');
       document.body.style.overflow = '';
@@ -1161,10 +1177,21 @@ input, select { font-family: inherit; }
 
   /* ── MODAL ── */
   var overlay = document.getElementById('modalOverlay');
-  document.getElementById('openModal').addEventListener('click', function() {
+  var courseSelect = document.querySelector('#leadForm select[name="course"]');
+
+  window.openModal = function(courseValue) {
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
-  });
+    // Предвыбрать курс если передан
+    if (courseValue && courseSelect) {
+      courseSelect.value = courseValue;
+    } else if (courseSelect) {
+      courseSelect.value = '';
+    }
+    // Сбросить сообщение
+    document.getElementById('formMessage').className = 'form-message';
+  };
+
   function closeModal() {
     overlay.classList.remove('open');
     document.body.style.overflow = '';
