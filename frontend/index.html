@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>f5academy — IT Академия</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Onest:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── CSS VARIABLES (MIDNIGHT CARBON) ── */
+:root {
+  --bg: #0D0D0F;
+  --bg2: #111114;
+  --surface: #16161A;
+  --surface2: #1E1E24;
+  --border: #2A2A32;
+  --accent: #E8FF47;
+  --text: #F0F0F5;
+  --text2: #8888A0;
+  --text3: #55556A;
+  --badge-bg: #1E2A00;
+  --badge-text: #E8FF47;
+  --radius: 14px;
+  --radius-lg: 20px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Onest', sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+button { border: none; cursor: pointer; font-family: inherit; }
+ul { list-style: none; }
+input, select { font-family: inherit; }
+
+/* ── UTILITIES ── */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 255, 71, 0.5); }
+  50% { box-shadow: 0 0 24px 6px rgba(232, 255, 71, 0.25); }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 24px;
+  transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(13, 13, 15, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: var(--border);
+}
+.nav-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+.nav-logo span { color: var(--accent); }
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text2);
+  transition: color 0.25s;
+}
+.nav-link:hover { color: var(--text); }
+.nav-btn {
+  background: var(--accent);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 10px;
+  transition: opacity 0.25s;
+}
+.nav-btn:hover { opacity: 0.85; }
+
+/* Burger */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  padding: 4px;
+}
+.burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 72px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 13, 15, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+}
+.mobile-menu .nav-btn {
+  font-size: 16px;
+  padding: 14px 36px;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 140px 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: var(--accent);
+  opacity: 0.07;
+  filter: blur(100px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.hero-badges {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.hero-badge {
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 18px;
+  border-radius: 100px;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+}
+.hero h1 em {
+  color: var(--accent);
+  font-style: normal;
+}
+.hero-sub {
+  font-size: 16px;
+  color: var(--text2);
+  max-width: 480px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+}
+.hero-cta {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 18px 42px;
+  border-radius: 12px;
+  animation: pulse 2.5s infinite;
+  transition: transform 0.25s;
+}
+.hero-cta:hover { transform: scale(1.03); }
+
+/* Stats */
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  margin-top: 56px;
+  padding-top: 36px;
+  border-top: 1px solid var(--border);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-stat {
+  flex: 1;
+  text-align: center;
+  padding: 0 20px;
+  border-right: 1px solid var(--border);
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.hero-stat-val .count { color: var(--accent); }
+.hero-stat-label {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 4px;
+}
+
+/* ── SECTION COMMON ── */
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--text3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* ── COURSES ── */
+.courses {
+  padding: 80px 24px;
+}
+.courses-grid {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.course-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.course-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(232, 255, 71, 0.1);
+}
+.course-card-img {
+  height: 140px;
+  background: var(--surface2);
+  position: relative;
+  overflow: hidden;
+}
+.course-card-img-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+}
+.course-card-dot {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.course-card-lines {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 60%;
+}
+.course-card-line {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--border);
+}
+.course-card-line.a {
+  background: var(--accent);
+  opacity: 0.5;
+  width: 60%;
+}
+.course-card-body { padding: 20px; }
+.course-card-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.course-card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.course-card-salary {
+  font-size: 14px;
+  color: var(--text2);
+}
+.course-card-salary strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+.course-card-btn {
+  display: inline-block;
+  margin-top: 16px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: opacity 0.25s;
+}
+.course-card-btn:hover { opacity: 0.85; }
+
+/* ── GUARANTEES ── */
+.guarantees {
+  padding: 80px 24px;
+}
+.guarantees-block {
+  max-width: 1140px;
+  margin: 0 auto;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 56px 48px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.guarantees-block::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  right: -60px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.06;
+  filter: blur(60px);
+  pointer-events: none;
+}
+.guarantees-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+.guarantees-title em {
+  color: var(--accent);
+  font-style: normal;
+}
+.guarantees-sub {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 36px;
+}
+.guarantees-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  text-align: left;
+}
+.guarantee-step {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+.guarantee-step-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.guarantee-step-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.guarantee-step-text {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.guarantees-cta {
+  display: inline-block;
+  margin-top: 36px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 16px 36px;
+  border-radius: 12px;
+  transition: opacity 0.25s;
+  position: relative;
+  z-index: 1;
+}
+.guarantees-cta:hover { opacity: 0.85; }
+
+/* ── FORM ── */
+.form-section {
+  padding: 80px 24px;
+}
+.form-wrapper {
+  max-width: 540px;
+  margin: 0 auto;
+  text-align: center;
+}
+.form-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+.form-sub {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 36px;
+}
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-input,
+.form-select {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.25s;
+}
+.form-input::placeholder { color: var(--text3); }
+.form-input:focus,
+.form-select:focus { border-color: var(--accent); }
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%238888A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  cursor: pointer;
+}
+.form-select option {
+  background: var(--surface);
+  color: var(--text);
+}
+.form-submit {
+  width: 100%;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 18px;
+  border-radius: 12px;
+  transition: opacity 0.25s;
+  position: relative;
+}
+.form-submit:hover { opacity: 0.85; }
+.form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.form-submit .loader {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--bg);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin: 0 auto;
+}
+.form-submit.loading .btn-text { visibility: hidden; }
+.form-submit.loading .loader { display: block; position: absolute; top: 50%; left: 50%; margin: -10px 0 0 -10px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.form-message {
+  margin-top: 16px;
+  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  display: none;
+}
+.form-message.success {
+  display: block;
+  background: var(--badge-bg);
+  color: var(--accent);
+  border: 1px solid rgba(232, 255, 71, 0.2);
+}
+.form-message.error {
+  display: block;
+  background: rgba(255, 60, 60, 0.1);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 60, 60, 0.2);
+}
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+  padding: 48px 24px;
+}
+.footer-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text3);
+  letter-spacing: -0.5px;
+}
+.footer-logo span { color: var(--accent); }
+.footer-desc {
+  font-size: 13px;
+  color: var(--text3);
+  margin-top: 8px;
+  line-height: 1.6;
+}
+.footer-col-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text2);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.footer-col a {
+  display: block;
+  font-size: 13px;
+  color: var(--text3);
+  margin-bottom: 10px;
+  transition: color 0.25s;
+}
+.footer-col a:hover { color: var(--text); }
+.footer-bottom {
+  max-width: 1140px;
+  margin: 32px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .nav-links,
+  .nav-btn-desktop { display: none; }
+  .burger { display: flex; }
+
+  .hero { padding: 120px 20px 60px; }
+  .hero h1 { letter-spacing: -1px; }
+  .hero-stats { flex-wrap: wrap; gap: 16px; }
+  .hero-stat {
+    flex: 1 1 40%;
+    border-right: none;
+    padding: 8px 0;
+  }
+
+  .courses-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+  .guarantees-grid { grid-template-columns: 1fr; }
+  .guarantees-block { padding: 36px 24px; }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .footer-bottom { flex-direction: column; gap: 8px; }
+}
+@media (max-width: 480px) {
+  .hero-stat-val { font-size: 22px; }
+  .hero-cta { padding: 16px 32px; font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">f<span>5</span>academy</a>
+    <div class="nav-links">
+      <a href="#courses" class="nav-link">Курсы</a>
+      <a href="#guarantees" class="nav-link">О нас</a>
+      <a href="#form" class="nav-link">Отзывы</a>
+    </div>
+    <a href="#form" class="nav-btn nav-btn-desktop">Записаться</a>
+    <button class="burger" id="burger" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#courses" class="mobile-link">Курсы</a>
+  <a href="#guarantees" class="mobile-link">О нас</a>
+  <a href="#form" class="mobile-link">Отзывы</a>
+  <a href="#form" class="nav-btn">Записаться</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero animate-on-scroll" id="hero">
+  <div class="hero-badges">
+    <span class="hero-badge">Без программирования</span>
+    <span class="hero-badge">С нуля за 3 мес</span>
+  </div>
+  <h1>Быстрое обучение<br>IT-профессиям<br><em>с зарплатой 80k+</em></h1>
+  <p class="hero-sub">От нуля до первой зарплаты — без технических навыков и английского языка.</p>
+  <a href="#form" class="hero-cta">Выбрать курс</a>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-val"><span class="count" data-target="3">0</span> мес</div>
+      <div class="hero-stat-label">Длительность</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">от <span class="count" data-target="3400" data-separator=" ">0</span> ₽</div>
+      <div class="hero-stat-label">В месяц</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val"><span class="count" data-target="4.94" data-decimals="2">0</span> ★</div>
+      <div class="hero-stat-label">Рейтинг</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val"><span class="count" data-target="80">0</span>k+</div>
+      <div class="hero-stat-label">Зарплата</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COURSES ═══ -->
+<section class="courses" id="courses">
+  <div class="section-header animate-on-scroll">
+    <div class="section-label">профессии</div>
+    <div class="section-title">Выберите направление</div>
+  </div>
+  <div class="courses-grid">
+    <!-- Card 1 -->
+    <div class="course-card animate-on-scroll">
+      <div class="course-card-img">
+        <div class="course-card-lines">
+          <div class="course-card-line a"></div>
+          <div class="course-card-line"></div>
+          <div class="course-card-line"></div>
+        </div>
+        <div class="course-card-dot"></div>
+        <div class="course-card-img-bar"></div>
+      </div>
+      <div class="course-card-body">
+        <div class="course-card-tag">Аналитик</div>
+        <div class="course-card-title">Системный аналитик ISA</div>
+        <div class="course-card-salary">Зарплата: <strong>100–500k ₽</strong></div>
+        <a href="#form" class="course-card-btn">Записаться</a>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="course-card animate-on-scroll">
+      <div class="course-card-img">
+        <div class="course-card-lines">
+          <div class="course-card-line"></div>
+          <div class="course-card-line a"></div>
+          <div class="course-card-line"></div>
+        </div>
+        <div class="course-card-dot"></div>
+        <div class="course-card-img-bar"></div>
+      </div>
+      <div class="course-card-body">
+        <div class="course-card-tag">Тестировщик</div>
+        <div class="course-card-title">QA-Тестировщик</div>
+        <div class="course-card-salary">Зарплата: <strong>80–240k ₽</strong></div>
+        <a href="#form" class="course-card-btn">Записаться</a>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="course-card animate-on-scroll">
+      <div class="course-card-img">
+        <div class="course-card-lines">
+          <div class="course-card-line"></div>
+          <div class="course-card-line"></div>
+          <div class="course-card-line a"></div>
+        </div>
+        <div class="course-card-dot"></div>
+        <div class="course-card-img-bar"></div>
+      </div>
+      <div class="course-card-body">
+        <div class="course-card-tag">Разработчик</div>
+        <div class="course-card-title">Flutter-разработчик</div>
+        <div class="course-card-salary">Зарплата: <strong>100–300k ₽</strong></div>
+        <a href="#form" class="course-card-btn">Записаться</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GUARANTEES ═══ -->
+<section class="guarantees" id="guarantees">
+  <div class="guarantees-block animate-on-scroll">
+    <div class="guarantees-title">Не даём пустых гарантий.<br><em>Обучаем тому, что нужно</em></div>
+    <div class="guarantees-sub">Реальная практика на каждом этапе обучения</div>
+    <div class="guarantees-grid">
+      <div class="guarantee-step">
+        <div class="guarantee-step-num">01 / ПРАКТИКА</div>
+        <div class="guarantee-step-title">Учим на практике</div>
+        <div class="guarantee-step-text">Домашка моделирует реальные рабочие ситуации — вы решаете задачи, а не зубрите теорию.</div>
+      </div>
+      <div class="guarantee-step">
+        <div class="guarantee-step-num">02 / ИНТЕРВЬЮ</div>
+        <div class="guarantee-step-title">Готовим к собеседованиям</div>
+        <div class="guarantee-step-text">Тестовые интервью перед трудоустройством — отработка ответов и уверенность.</div>
+      </div>
+      <div class="guarantee-step">
+        <div class="guarantee-step-num">03 / РАБОТА</div>
+        <div class="guarantee-step-title">Ищем работу за вас</div>
+        <div class="guarantee-step-text">Составляем резюме и откликаемся на вакансии, пока вы доучиваете последний модуль.</div>
+      </div>
+    </div>
+    <a href="#form" class="guarantees-cta">Выбрать курс</a>
+  </div>
+</section>
+
+<!-- ═══ FORM ═══ -->
+<section class="form-section" id="form">
+  <div class="form-wrapper animate-on-scroll">
+    <h2 class="form-title">Оставьте заявку</h2>
+    <p class="form-sub">Свяжемся с вами в течение 15 минут и поможем выбрать курс</p>
+    <form id="leadForm" class="form-fields" novalidate>
+      <input type="text" class="form-input" name="name" placeholder="Ваше имя" required autocomplete="name">
+      <input type="tel" class="form-input" name="phone" placeholder="Телефон" required autocomplete="tel">
+      <select class="form-select" name="course" required>
+        <option value="" disabled selected>Выберите курс</option>
+        <option value="system-analyst">Системный аналитик ISA</option>
+        <option value="qa">QA-Тестировщик</option>
+        <option value="flutter">Flutter-разработчик</option>
+      </select>
+      <button type="submit" class="form-submit" id="submitBtn">
+        <span class="btn-text">Отправить заявку</span>
+        <span class="loader"></span>
+      </button>
+    </form>
+    <div class="form-message" id="formMessage"></div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">f<span>5</span>academy</div>
+      <div class="footer-desc">Онлайн IT-академия.<br>Обучаем с нуля до трудоустройства.</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Курсы</div>
+      <a href="#courses">Системный аналитик</a>
+      <a href="#courses">QA-Тестировщик</a>
+      <a href="#courses">Flutter-разработчик</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Компания</div>
+      <a href="#guarantees">О нас</a>
+      <a href="#form">Контакты</a>
+      <a href="#">Блог</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Документы</div>
+      <a href="#">Политика конфиденциальности</a>
+      <a href="#">Договор оферты</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 f5academy. Все права защищены.</span>
+    <span>Сделано с ❤ в России</span>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  /* ── NAV SCROLL ── */
+  const nav = document.getElementById('nav');
+  let lastScroll = 0;
+  window.addEventListener('scroll', function() {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    lastScroll = window.scrollY;
+  }, { passive: true });
+
+  /* ── BURGER MENU ── */
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', function() {
+    burger.classList.toggle('active');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      burger.classList.remove('active');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  /* ── INTERSECTION OBSERVER — FADE IN ── */
+  var animElements = document.querySelectorAll('.animate-on-scroll');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  animElements.forEach(function(el) { observer.observe(el); });
+
+  /* ── COUNT-UP ANIMATION ── */
+  var counters = document.querySelectorAll('.count');
+  var countObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        animateCount(entry.target);
+        countObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(function(el) { countObserver.observe(el); });
+
+  function animateCount(el) {
+    var target = parseFloat(el.dataset.target);
+    var decimals = parseInt(el.dataset.decimals) || 0;
+    var useSeparator = el.dataset.separator || '';
+    var duration = 1500;
+    var start = 0;
+    var startTime = null;
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = start + (target - start) * eased;
+
+      if (decimals > 0) {
+        el.textContent = current.toFixed(decimals);
+      } else {
+        var val = Math.round(current);
+        if (useSeparator && val >= 1000) {
+          el.textContent = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, useSeparator);
+        } else {
+          el.textContent = val;
+        }
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ── FORM SUBMISSION ── */
+  var form = document.getElementById('leadForm');
+  var submitBtn = document.getElementById('submitBtn');
+  var formMessage = document.getElementById('formMessage');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    formMessage.className = 'form-message';
+    formMessage.style.display = 'none';
+
+    var name = form.name.value.trim();
+    var phone = form.phone.value.trim();
+    var course = form.course.value;
+
+    if (!name || !phone || !course) {
+      showMessage('error', 'Пожалуйста, заполните все поля.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+
+    fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name, phone: phone, course: course })
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('Ошибка сервера');
+      return res.json();
+    })
+    .then(function() {
+      showMessage('success', 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+      form.reset();
+    })
+    .catch(function() {
+      showMessage('error', 'Не удалось отправить заявку. Попробуйте позже.');
+    })
+    .finally(function() {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading');
+    });
+  });
+
+  function showMessage(type, text) {
+    formMessage.textContent = text;
+    formMessage.className = 'form-message ' + type;
+  }
+
+})();
+</script>
+</body>
+</html>
