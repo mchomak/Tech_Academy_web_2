@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 палитр — IT Академия</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Onest:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0a; font-family: 'Onest', sans-serif; }
+
+.page-header { text-align: center; padding: 60px 20px 40px; color: #fff; }
+.page-header h1 { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; }
+.page-header p { color: #888; font-size: 15px; }
+
+.palette-section { max-width: 1100px; margin: 0 auto 80px; padding: 0 24px; }
+.palette-label { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.palette-label .num { font-family: 'Space Mono', monospace; font-size: 12px; color: #555; letter-spacing: 2px; }
+.palette-label h2 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
+.palette-label .desc { font-size: 14px; color: #888; margin-left: auto; max-width: 280px; text-align: right; }
+.swatches { display: flex; gap: 8px; }
+.swatch { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.08); }
+.divider { width: 100%; height: 1px; background: #1a1a1a; margin-bottom: 80px; }
+
+/* PALETTE VARS */
+.p1 { --bg:#0D0D0F; --bg2:#111114; --surface:#16161A; --surface2:#1E1E24; --border:#2A2A32; --accent:#E8FF47; --text:#F0F0F5; --text2:#8888A0; --text3:#55556A; --badge-bg:#1E2A00; --badge-text:#E8FF47; background:var(--bg); border-radius:20px; overflow:hidden; border:1px solid var(--border); }
+.p2 { --bg:#F8F9FC; --bg2:#FFFFFF; --surface:#FFFFFF; --surface2:#F0F2F8; --border:#E2E5F0; --accent:#0057FF; --text:#0A0A1A; --text2:#5A5A7A; --text3:#9999BB; --badge-bg:#EBF0FF; --badge-text:#0057FF; background:var(--bg); border-radius:20px; overflow:hidden; border:1px solid var(--border); }
+.p3 { --bg:#060A06; --bg2:#080D08; --surface:#0C130C; --surface2:#111811; --border:#1A2A1A; --accent:#00FF7F; --text:#D0FFD0; --text2:#5A8A5A; --text3:#2A4A2A; --badge-bg:#0A1F0A; --badge-text:#00FF7F; background:var(--bg); border-radius:20px; overflow:hidden; border:1px solid var(--border); }
+.p4 { --bg:#FDFAF5; --bg2:#FFFFFF; --surface:#FFFFFF; --surface2:#F5EFE6; --border:#E8DFD0; --accent:#D4500A; --text:#1A1208; --text2:#7A6A55; --text3:#B0A090; --badge-bg:#FFF0E8; --badge-text:#D4500A; background:var(--bg); border-radius:20px; overflow:hidden; border:1px solid var(--border); }
+.p5 { --bg:#F4F6F0; --bg2:#FFFFFF; --surface:#FFFFFF; --surface2:#E8EDE0; --border:#D8DFD0; --accent:#2D6A2D; --text:#141A10; --text2:#5A6A50; --text3:#9AAA8A; --badge-bg:#E0EED8; --badge-text:#2D6A2D; background:var(--bg); border-radius:20px; overflow:hidden; border:1px solid var(--border); }
+
+/* SHARED */
+.mock { font-family: 'Onest', sans-serif; }
+
+.mock-nav { display:flex; align-items:center; justify-content:space-between; padding:18px 32px; border-bottom:1px solid var(--border); background:var(--bg2); }
+.mock-logo { font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color:var(--text); letter-spacing:-0.5px; }
+.mock-logo span { color:var(--accent); }
+.mock-nav-links { display:flex; gap:24px; }
+.mock-nav-link { font-size:13px; color:var(--text2); font-weight:500; }
+.mock-nav-btn { background:var(--accent); color:var(--bg); font-size:12px; font-weight:700; padding:8px 18px; border-radius:8px; font-family:'Syne',sans-serif; }
+
+/* HERO — centered */
+.mock-hero { padding:56px 32px 44px; background:var(--bg); text-align:center; position:relative; overflow:hidden; }
+.mock-hero::before { content:''; position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:500px; height:220px; background:var(--accent); opacity:0.07; filter:blur(90px); border-radius:50%; }
+.mock-badges { display:flex; gap:8px; margin-bottom:22px; justify-content:center; }
+.mock-badge { background:var(--badge-bg); color:var(--badge-text); font-size:11px; font-weight:600; padding:5px 14px; border-radius:100px; }
+.mock-hero h1 { font-family:'Syne',sans-serif; font-size:38px; font-weight:800; color:var(--text); line-height:1.1; letter-spacing:-1.5px; margin-bottom:14px; }
+.mock-hero h1 em { color:var(--accent); font-style:normal; }
+.mock-hero p { font-size:14px; color:var(--text2); line-height:1.65; margin:0 auto 28px; max-width:420px; }
+.mock-hero-btn { display:inline-block; background:var(--accent); color:var(--bg); font-size:14px; font-weight:700; padding:15px 34px; border-radius:10px; font-family:'Syne',sans-serif; }
+.mock-stats { display:flex; margin-top:40px; padding-top:28px; border-top:1px solid var(--border); justify-content:center; }
+.mock-stat { flex:1; text-align:center; padding:0 16px; border-right:1px solid var(--border); }
+.mock-stat:last-child { border-right:none; }
+.mock-stat-val { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; color:var(--text); letter-spacing:-0.5px; }
+.mock-stat-val span { color:var(--accent); }
+.mock-stat-label { font-size:11px; color:var(--text3); margin-top:3px; }
+
+/* SECTION HEADER */
+.mock-section-header { text-align:center; padding:36px 32px 20px; }
+.mock-section-label { font-size:11px; color:var(--text3); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; font-family:'Space Mono',monospace; }
+.mock-section-title { font-family:'Syne',sans-serif; font-size:24px; font-weight:800; color:var(--text); letter-spacing:-0.5px; }
+
+/* COURSES */
+.mock-courses-grid { padding:0 32px 8px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.mock-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+.mock-card-img { height:90px; background:var(--surface2); position:relative; overflow:hidden; }
+.mock-card-img-bar { position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--accent); }
+.mock-card-dot { position:absolute; top:12px; right:12px; width:8px; height:8px; border-radius:50%; background:var(--accent); }
+.mock-card-lines { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); display:flex; flex-direction:column; gap:5px; width:60%; }
+.mock-card-line { height:6px; border-radius:3px; background:var(--border); }
+.mock-card-line.a { background:var(--accent); opacity:0.5; width:60%; }
+.mock-card-body { padding:14px; }
+.mock-card-tag { font-size:10px; color:var(--accent); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:5px; font-family:'Space Mono',monospace; }
+.mock-card-title { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px; }
+.mock-card-salary { font-size:11px; color:var(--text2); }
+.mock-card-salary strong { color:var(--accent); font-weight:600; }
+.mock-card-btn { display:inline-block; margin-top:10px; background:var(--accent); color:var(--bg); font-size:10px; font-weight:700; padding:6px 14px; border-radius:6px; font-family:'Syne',sans-serif; }
+
+/* TEACHERS */
+.mock-teachers-grid { padding:0 32px 24px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.mock-teacher { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; text-align:center; }
+.mock-teacher-photo { height:110px; background:var(--surface2); position:relative; display:flex; align-items:flex-end; justify-content:center; }
+.mock-teacher-avatar { width:70px; height:90px; border-radius:50% 50% 0 0; background:var(--border); position:relative; }
+.mock-teacher-avatar::before { content:''; position:absolute; top:12px; left:50%; transform:translateX(-50%); width:28px; height:28px; border-radius:50%; background:var(--text3); }
+.mock-teacher-avatar::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:46px; height:30px; border-radius:50% 50% 0 0; background:var(--text3); }
+.mock-teacher-accent-bar { position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--accent); }
+.mock-teacher-body { padding:14px 12px; }
+.mock-teacher-name { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px; }
+.mock-teacher-role { font-size:11px; color:var(--text2); line-height:1.4; }
+.mock-teacher-tag { display:inline-block; margin-top:8px; background:var(--badge-bg); color:var(--badge-text); font-size:10px; font-weight:600; padding:3px 10px; border-radius:100px; }
+
+/* GUARANTEE */
+.mock-dark { margin:0 32px 32px; background:var(--surface2); border:1px solid var(--border); border-radius:16px; padding:32px; position:relative; overflow:hidden; text-align:center; }
+.mock-dark::after { content:''; position:absolute; bottom:-40px; right:-40px; width:180px; height:180px; border-radius:50%; background:var(--accent); opacity:0.06; filter:blur(50px); }
+.mock-dark-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--text); line-height:1.25; letter-spacing:-0.5px; margin-bottom:6px; }
+.mock-dark-title em { color:var(--accent); font-style:normal; }
+.mock-dark-sub { font-size:12px; color:var(--text2); margin-bottom:24px; }
+.mock-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; text-align:left; }
+.mock-step { background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:14px; }
+.mock-step-num { font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); margin-bottom:8px; }
+.mock-step-text { font-size:12px; color:var(--text2); line-height:1.5; }
+.mock-step-text strong { color:var(--text); font-weight:600; display:block; margin-bottom:2px; }
+.mock-dark-btn { display:inline-block; margin-top:24px; background:var(--accent); color:var(--bg); font-size:13px; font-weight:700; padding:13px 30px; border-radius:10px; font-family:'Syne',sans-serif; }
+
+/* FOOTER */
+.mock-footer { padding:20px 32px; border-top:1px solid var(--border); background:var(--bg2); display:flex; justify-content:space-between; align-items:center; }
+.mock-footer-logo { font-family:'Syne',sans-serif; font-size:14px; font-weight:800; color:var(--text3); }
+.mock-footer-logo span { color:var(--accent); }
+.mock-footer-links { display:flex; gap:16px; }
+.mock-footer-link { font-size:11px; color:var(--text3); }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Варианты палитры — IT Академия</h1>
+  <p>5 концепций. Покажи заказчику — после выбора внедрим за 15 минут</p>
+</div>
+
+<!-- MACRO для блока (копируется 5 раз с разным классом) -->
+
+<!-- ===== P1: MIDNIGHT CARBON ===== -->
+<div class="palette-section">
+  <div class="palette-label">
+    <span class="num">01 /</span><h2 style="color:#E8FF47">MIDNIGHT CARBON</h2>
+    <div class="swatches"><div class="swatch" style="background:#0D0D0F"></div><div class="swatch" style="background:#16161A"></div><div class="swatch" style="background:#E8FF47"></div><div class="swatch" style="background:#7B61FF"></div></div>
+    <span class="desc">Тёмная, premium. Для курсов с высоким чеком</span>
+  </div>
+  <div class="mock p1">
+    <nav class="mock-nav"><div class="mock-logo">f<span>5</span>academy</div><div class="mock-nav-links"><span class="mock-nav-link">Курсы</span><span class="mock-nav-link">Преподаватели</span><span class="mock-nav-link">Отзывы</span></div><div class="mock-nav-btn">Выбрать курс →</div></nav>
+    <div class="mock-hero">
+      <div class="mock-badges"><span class="mock-badge">Без программирования</span><span class="mock-badge">С нуля за 3 мес</span></div>
+      <h1>Быстрое обучение<br>IT-профессиям<br><em>с зарплатой 80k+</em></h1>
+      <p>От нуля до первой зарплаты — без технических навыков и английского языка.</p>
+      <div class="mock-hero-btn">Выбрать курс</div>
+      <div class="mock-stats"><div class="mock-stat"><div class="mock-stat-val"><span>3</span> мес</div><div class="mock-stat-label">Длительность</div></div><div class="mock-stat"><div class="mock-stat-val">от <span>3 400</span> ₽</div><div class="mock-stat-label">В месяц</div></div><div class="mock-stat"><div class="mock-stat-val"><span>4.94</span> ★</div><div class="mock-stat-label">Рейтинг</div></div><div class="mock-stat"><div class="mock-stat-val"><span>80k</span>+</div><div class="mock-stat-label">Зарплата</div></div></div>
+    </div>
+    <div class="mock-section-header"><div class="mock-section-label">профессии</div><div class="mock-section-title">Выберите направление</div></div>
+    <div class="mock-courses-grid">
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line a"></div><div class="mock-card-line"></div><div class="mock-card-line"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Аналитик</div><div class="mock-card-title">Системный аналитик ISA</div><div class="mock-card-salary">Зарплата: <strong>100–500k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line"></div><div class="mock-card-line a"></div><div class="mock-card-line"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Тестировщик</div><div class="mock-card-title">QA-Тестировщик</div><div class="mock-card-salary">Зарплата: <strong>80–240k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line"></div><div class="mock-card-line"></div><div class="mock-card-line a"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Разработчик</div><div class="mock-card-title">Flutter-разработчик</div><div class="mock-card-salary">Зарплата: <strong>100–300k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+    </div>
+    <div class="mock-section-header"><div class="mock-section-label">команда</div><div class="mock-section-title">Наши преподаватели</div></div>
+    <div class="mock-teachers-grid">
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Алексей Илясов</div><div class="mock-teacher-role">Middle QA-тестировщик в СБЕР</div><span class="mock-teacher-tag">3+ года опыта</span></div></div>
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Юрий Гущин</div><div class="mock-teacher-role">Senior QA-тестировщик</div><span class="mock-teacher-tag">5+ лет опыта</span></div></div>
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Виталий Крутиков</div><div class="mock-teacher-role">Главный методолог, Системный аналитик</div><span class="mock-teacher-tag">5+ лет опыта</span></div></div>
+    </div>
+    <div class="mock-dark">
+      <div class="mock-dark-title">Не даём пустых гарантий.<br><em>Обучаем тому, что нужно</em></div>
+      <div class="mock-dark-sub">Реальная практика на каждом этапе обучения</div>
+      <div class="mock-steps">
+        <div class="mock-step"><div class="mock-step-num">01 / ПРАКТИКА</div><div class="mock-step-text"><strong>Учим на практике</strong>Домашка моделирует реальные рабочие ситуации</div></div>
+        <div class="mock-step"><div class="mock-step-num">02 / ИНТЕРВЬЮ</div><div class="mock-step-text"><strong>Готовим к собеседованиям</strong>Тестовые интервью перед трудоустройством</div></div>
+        <div class="mock-step"><div class="mock-step-num">03 / РАБОТА</div><div class="mock-step-text"><strong>Ищем работу за вас</strong>Составляем резюме и откликаемся на вакансии</div></div>
+      </div>
+      <div class="mock-dark-btn">Выбрать курс</div>
+    </div>
+    <footer class="mock-footer"><div class="mock-footer-logo">f<span>5</span>academy</div><div class="mock-footer-links"><span class="mock-footer-link">Политика конфиденциальности</span><span class="mock-footer-link">Договор оферты</span><span class="mock-footer-link">© 2025</span></div></footer>
+  </div>
+</div>
+<div class="divider"></div>
+
+<!-- ===== P2: ARCTIC MINIMAL ===== -->
+<div class="palette-section">
+  <div class="palette-label">
+    <span class="num">02 /</span><h2 style="color:#0057FF">ARCTIC MINIMAL</h2>
+    <div class="swatches"><div class="swatch" style="background:#F8F9FC;border-color:#ddd"></div><div class="swatch" style="background:#FFFFFF;border-color:#ddd"></div><div class="swatch" style="background:#0057FF"></div><div class="swatch" style="background:#FF4D2E"></div></div>
+    <span class="desc">Светлая, корпоративная. Доверие, SaaS-стиль</span>
+  </div>
+  <div class="mock p2">
+    <nav class="mock-nav"><div class="mock-logo">f<span>5</span>academy</div><div class="mock-nav-links"><span class="mock-nav-link">Курсы</span><span class="mock-nav-link">Преподаватели</span><span class="mock-nav-link">Отзывы</span></div><div class="mock-nav-btn">Выбрать курс →</div></nav>
+    <div class="mock-hero">
+      <div class="mock-badges"><span class="mock-badge">Без программирования</span><span class="mock-badge">С нуля за 3 мес</span></div>
+      <h1>Быстрое обучение<br>IT-профессиям<br><em>с зарплатой 80k+</em></h1>
+      <p>От нуля до первой зарплаты — без технических навыков и английского языка.</p>
+      <div class="mock-hero-btn">Выбрать курс</div>
+      <div class="mock-stats"><div class="mock-stat"><div class="mock-stat-val"><span>3</span> мес</div><div class="mock-stat-label">Длительность</div></div><div class="mock-stat"><div class="mock-stat-val">от <span>3 400</span> ₽</div><div class="mock-stat-label">В месяц</div></div><div class="mock-stat"><div class="mock-stat-val"><span>4.94</span> ★</div><div class="mock-stat-label">Рейтинг</div></div><div class="mock-stat"><div class="mock-stat-val"><span>80k</span>+</div><div class="mock-stat-label">Зарплата</div></div></div>
+    </div>
+    <div class="mock-section-header"><div class="mock-section-label">профессии</div><div class="mock-section-title">Выберите направление</div></div>
+    <div class="mock-courses-grid">
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line a"></div><div class="mock-card-line"></div><div class="mock-card-line"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Аналитик</div><div class="mock-card-title">Системный аналитик ISA</div><div class="mock-card-salary">Зарплата: <strong>100–500k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line"></div><div class="mock-card-line a"></div><div class="mock-card-line"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Тестировщик</div><div class="mock-card-title">QA-Тестировщик</div><div class="mock-card-salary">Зарплата: <strong>80–240k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line"></div><div class="mock-card-line"></div><div class="mock-card-line a"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Разработчик</div><div class="mock-card-title">Flutter-разработчик</div><div class="mock-card-salary">Зарплата: <strong>100–300k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+    </div>
+    <div class="mock-section-header"><div class="mock-section-label">команда</div><div class="mock-section-title">Наши преподаватели</div></div>
+    <div class="mock-teachers-grid">
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Алексей Илясов</div><div class="mock-teacher-role">Middle QA-тестировщик в СБЕР</div><span class="mock-teacher-tag">3+ года опыта</span></div></div>
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Юрий Гущин</div><div class="mock-teacher-role">Senior QA-тестировщик</div><span class="mock-teacher-tag">5+ лет опыта</span></div></div>
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Виталий Крутиков</div><div class="mock-teacher-role">Главный методолог, Системный аналитик</div><span class="mock-teacher-tag">5+ лет опыта</span></div></div>
+    </div>
+    <div class="mock-dark">
+      <div class="mock-dark-title">Не даём пустых гарантий.<br><em>Обучаем тому, что нужно</em></div>
+      <div class="mock-dark-sub">Реальная практика на каждом этапе обучения</div>
+      <div class="mock-steps">
+        <div class="mock-step"><div class="mock-step-num">01 / ПРАКТИКА</div><div class="mock-step-text"><strong>Учим на практике</strong>Домашка моделирует реальные рабочие ситуации</div></div>
+        <div class="mock-step"><div class="mock-step-num">02 / ИНТЕРВЬЮ</div><div class="mock-step-text"><strong>Готовим к собеседованиям</strong>Тестовые интервью перед трудоустройством</div></div>
+        <div class="mock-step"><div class="mock-step-num">03 / РАБОТА</div><div class="mock-step-text"><strong>Ищем работу за вас</strong>Составляем резюме и откликаемся на вакансии</div></div>
+      </div>
+      <div class="mock-dark-btn">Выбрать курс</div>
+    </div>
+    <footer class="mock-footer"><div class="mock-footer-logo">f<span>5</span>academy</div><div class="mock-footer-links"><span class="mock-footer-link">Политика конфиденциальности</span><span class="mock-footer-link">Договор оферты</span><span class="mock-footer-link">© 2025</span></div></footer>
+  </div>
+</div>
+<div class="divider"></div>
+
+<!-- ===== P3: TERMINAL GREEN ===== -->
+<div class="palette-section">
+  <div class="palette-label">
+    <span class="num">03 /</span><h2 style="color:#00FF7F">TERMINAL GREEN</h2>
+    <div class="swatches"><div class="swatch" style="background:#060A06"></div><div class="swatch" style="background:#0C130C"></div><div class="swatch" style="background:#00FF7F"></div><div class="swatch" style="background:#00CC66"></div></div>
+    <span class="desc">Тёмная + зелёная. Хакерский tech-стиль, выбивается из конкурентов</span>
+  </div>
+  <div class="mock p3">
+    <nav class="mock-nav"><div class="mock-logo">f<span>5</span>academy</div><div class="mock-nav-links"><span class="mock-nav-link">Курсы</span><span class="mock-nav-link">Преподаватели</span><span class="mock-nav-link">Отзывы</span></div><div class="mock-nav-btn">Выбрать курс →</div></nav>
+    <div class="mock-hero">
+      <div class="mock-badges"><span class="mock-badge">Без программирования</span><span class="mock-badge">С нуля за 3 мес</span></div>
+      <h1>Быстрое обучение<br>IT-профессиям<br><em>с зарплатой 80k+</em></h1>
+      <p>От нуля до первой зарплаты — без технических навыков и английского языка.</p>
+      <div class="mock-hero-btn">Выбрать курс</div>
+      <div class="mock-stats"><div class="mock-stat"><div class="mock-stat-val"><span>3</span> мес</div><div class="mock-stat-label">Длительность</div></div><div class="mock-stat"><div class="mock-stat-val">от <span>3 400</span> ₽</div><div class="mock-stat-label">В месяц</div></div><div class="mock-stat"><div class="mock-stat-val"><span>4.94</span> ★</div><div class="mock-stat-label">Рейтинг</div></div><div class="mock-stat"><div class="mock-stat-val"><span>80k</span>+</div><div class="mock-stat-label">Зарплата</div></div></div>
+    </div>
+    <div class="mock-section-header"><div class="mock-section-label">профессии</div><div class="mock-section-title">Выберите направление</div></div>
+    <div class="mock-courses-grid">
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line a"></div><div class="mock-card-line"></div><div class="mock-card-line"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Аналитик</div><div class="mock-card-title">Системный аналитик ISA</div><div class="mock-card-salary">Зарплата: <strong>100–500k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line"></div><div class="mock-card-line a"></div><div class="mock-card-line"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Тестировщик</div><div class="mock-card-title">QA-Тестировщик</div><div class="mock-card-salary">Зарплата: <strong>80–240k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line"></div><div class="mock-card-line"></div><div class="mock-card-line a"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Разработчик</div><div class="mock-card-title">Flutter-разработчик</div><div class="mock-card-salary">Зарплата: <strong>100–300k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+    </div>
+    <div class="mock-section-header"><div class="mock-section-label">команда</div><div class="mock-section-title">Наши преподаватели</div></div>
+    <div class="mock-teachers-grid">
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Алексей Илясов</div><div class="mock-teacher-role">Middle QA-тестировщик в СБЕР</div><span class="mock-teacher-tag">3+ года опыта</span></div></div>
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Юрий Гущин</div><div class="mock-teacher-role">Senior QA-тестировщик</div><span class="mock-teacher-tag">5+ лет опыта</span></div></div>
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Виталий Крутиков</div><div class="mock-teacher-role">Главный методолог, Системный аналитик</div><span class="mock-teacher-tag">5+ лет опыта</span></div></div>
+    </div>
+    <div class="mock-dark">
+      <div class="mock-dark-title">Не даём пустых гарантий.<br><em>Обучаем тому, что нужно</em></div>
+      <div class="mock-dark-sub">Реальная практика на каждом этапе обучения</div>
+      <div class="mock-steps">
+        <div class="mock-step"><div class="mock-step-num">01 / ПРАКТИКА</div><div class="mock-step-text"><strong>Учим на практике</strong>Домашка моделирует реальные рабочие ситуации</div></div>
+        <div class="mock-step"><div class="mock-step-num">02 / ИНТЕРВЬЮ</div><div class="mock-step-text"><strong>Готовим к собеседованиям</strong>Тестовые интервью перед трудоустройством</div></div>
+        <div class="mock-step"><div class="mock-step-num">03 / РАБОТА</div><div class="mock-step-text"><strong>Ищем работу за вас</strong>Составляем резюме и откликаемся на вакансии</div></div>
+      </div>
+      <div class="mock-dark-btn">Выбрать курс</div>
+    </div>
+    <footer class="mock-footer"><div class="mock-footer-logo">f<span>5</span>academy</div><div class="mock-footer-links"><span class="mock-footer-link">Политика конфиденциальности</span><span class="mock-footer-link">Договор оферты</span><span class="mock-footer-link">© 2025</span></div></footer>
+  </div>
+</div>
+<div class="divider"></div>
+
+<!-- ===== P4: WARM PAPER ===== -->
+<div class="palette-section">
+  <div class="palette-label">
+    <span class="num">04 /</span><h2 style="color:#D4500A">WARM PAPER</h2>
+    <div class="swatches"><div class="swatch" style="background:#FDFAF5;border-color:#ddd"></div><div class="swatch" style="background:#F5EFE6;border-color:#ddd"></div><div class="swatch" style="background:#D4500A"></div><div class="swatch" style="background:#1A1A1A"></div></div>
+    <span class="desc">Светлая тёплая. Уютно, человечно — не похоже на IT-шаблон</span>
+  </div>
+  <div class="mock p4">
+    <nav class="mock-nav"><div class="mock-logo">f<span>5</span>academy</div><div class="mock-nav-links"><span class="mock-nav-link">Курсы</span><span class="mock-nav-link">Преподаватели</span><span class="mock-nav-link">Отзывы</span></div><div class="mock-nav-btn">Выбрать курс →</div></nav>
+    <div class="mock-hero">
+      <div class="mock-badges"><span class="mock-badge">Без программирования</span><span class="mock-badge">С нуля за 3 мес</span></div>
+      <h1>Быстрое обучение<br>IT-профессиям<br><em>с зарплатой 80k+</em></h1>
+      <p>От нуля до первой зарплаты — без технических навыков и английского языка.</p>
+      <div class="mock-hero-btn">Выбрать курс</div>
+      <div class="mock-stats"><div class="mock-stat"><div class="mock-stat-val"><span>3</span> мес</div><div class="mock-stat-label">Длительность</div></div><div class="mock-stat"><div class="mock-stat-val">от <span>3 400</span> ₽</div><div class="mock-stat-label">В месяц</div></div><div class="mock-stat"><div class="mock-stat-val"><span>4.94</span> ★</div><div class="mock-stat-label">Рейтинг</div></div><div class="mock-stat"><div class="mock-stat-val"><span>80k</span>+</div><div class="mock-stat-label">Зарплата</div></div></div>
+    </div>
+    <div class="mock-section-header"><div class="mock-section-label">профессии</div><div class="mock-section-title">Выберите направление</div></div>
+    <div class="mock-courses-grid">
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line a"></div><div class="mock-card-line"></div><div class="mock-card-line"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Аналитик</div><div class="mock-card-title">Системный аналитик ISA</div><div class="mock-card-salary">Зарплата: <strong>100–500k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line"></div><div class="mock-card-line a"></div><div class="mock-card-line"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Тестировщик</div><div class="mock-card-title">QA-Тестировщик</div><div class="mock-card-salary">Зарплата: <strong>80–240k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line"></div><div class="mock-card-line"></div><div class="mock-card-line a"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Разработчик</div><div class="mock-card-title">Flutter-разработчик</div><div class="mock-card-salary">Зарплата: <strong>100–300k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+    </div>
+    <div class="mock-section-header"><div class="mock-section-label">команда</div><div class="mock-section-title">Наши преподаватели</div></div>
+    <div class="mock-teachers-grid">
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Алексей Илясов</div><div class="mock-teacher-role">Middle QA-тестировщик в СБЕР</div><span class="mock-teacher-tag">3+ года опыта</span></div></div>
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Юрий Гущин</div><div class="mock-teacher-role">Senior QA-тестировщик</div><span class="mock-teacher-tag">5+ лет опыта</span></div></div>
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Виталий Крутиков</div><div class="mock-teacher-role">Главный методолог, Системный аналитик</div><span class="mock-teacher-tag">5+ лет опыта</span></div></div>
+    </div>
+    <div class="mock-dark">
+      <div class="mock-dark-title">Не даём пустых гарантий.<br><em>Обучаем тому, что нужно</em></div>
+      <div class="mock-dark-sub">Реальная практика на каждом этапе обучения</div>
+      <div class="mock-steps">
+        <div class="mock-step"><div class="mock-step-num">01 / ПРАКТИКА</div><div class="mock-step-text"><strong>Учим на практике</strong>Домашка моделирует реальные рабочие ситуации</div></div>
+        <div class="mock-step"><div class="mock-step-num">02 / ИНТЕРВЬЮ</div><div class="mock-step-text"><strong>Готовим к собеседованиям</strong>Тестовые интервью перед трудоустройством</div></div>
+        <div class="mock-step"><div class="mock-step-num">03 / РАБОТА</div><div class="mock-step-text"><strong>Ищем работу за вас</strong>Составляем резюме и откликаемся на вакансии</div></div>
+      </div>
+      <div class="mock-dark-btn">Выбрать курс</div>
+    </div>
+    <footer class="mock-footer"><div class="mock-footer-logo">f<span>5</span>academy</div><div class="mock-footer-links"><span class="mock-footer-link">Политика конфиденциальности</span><span class="mock-footer-link">Договор оферты</span><span class="mock-footer-link">© 2025</span></div></footer>
+  </div>
+</div>
+<div class="divider"></div>
+
+<!-- ===== P5: SAGE STUDIO ===== -->
+<div class="palette-section">
+  <div class="palette-label">
+    <span class="num">05 /</span><h2 style="color:#2D6A2D">SAGE STUDIO</h2>
+    <div class="swatches"><div class="swatch" style="background:#F4F6F0;border-color:#ddd"></div><div class="swatch" style="background:#E8EDE0;border-color:#ddd"></div><div class="swatch" style="background:#2D6A2D"></div><div class="swatch" style="background:#8B1A1A"></div></div>
+    <span class="desc">Светлая зелёная. Спокойно, современно — Notion meets Duolingo</span>
+  </div>
+  <div class="mock p5">
+    <nav class="mock-nav"><div class="mock-logo">f<span>5</span>academy</div><div class="mock-nav-links"><span class="mock-nav-link">Курсы</span><span class="mock-nav-link">Преподаватели</span><span class="mock-nav-link">Отзывы</span></div><div class="mock-nav-btn">Выбрать курс →</div></nav>
+    <div class="mock-hero">
+      <div class="mock-badges"><span class="mock-badge">Без программирования</span><span class="mock-badge">С нуля за 3 мес</span></div>
+      <h1>Быстрое обучение<br>IT-профессиям<br><em>с зарплатой 80k+</em></h1>
+      <p>От нуля до первой зарплаты — без технических навыков и английского языка.</p>
+      <div class="mock-hero-btn">Выбрать курс</div>
+      <div class="mock-stats"><div class="mock-stat"><div class="mock-stat-val"><span>3</span> мес</div><div class="mock-stat-label">Длительность</div></div><div class="mock-stat"><div class="mock-stat-val">от <span>3 400</span> ₽</div><div class="mock-stat-label">В месяц</div></div><div class="mock-stat"><div class="mock-stat-val"><span>4.94</span> ★</div><div class="mock-stat-label">Рейтинг</div></div><div class="mock-stat"><div class="mock-stat-val"><span>80k</span>+</div><div class="mock-stat-label">Зарплата</div></div></div>
+    </div>
+    <div class="mock-section-header"><div class="mock-section-label">профессии</div><div class="mock-section-title">Выберите направление</div></div>
+    <div class="mock-courses-grid">
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line a"></div><div class="mock-card-line"></div><div class="mock-card-line"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Аналитик</div><div class="mock-card-title">Системный аналитик ISA</div><div class="mock-card-salary">Зарплата: <strong>100–500k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line"></div><div class="mock-card-line a"></div><div class="mock-card-line"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Тестировщик</div><div class="mock-card-title">QA-Тестировщик</div><div class="mock-card-salary">Зарплата: <strong>80–240k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+      <div class="mock-card"><div class="mock-card-img"><div class="mock-card-lines"><div class="mock-card-line"></div><div class="mock-card-line"></div><div class="mock-card-line a"></div></div><div class="mock-card-dot"></div><div class="mock-card-img-bar"></div></div><div class="mock-card-body"><div class="mock-card-tag">Разработчик</div><div class="mock-card-title">Flutter-разработчик</div><div class="mock-card-salary">Зарплата: <strong>100–300k ₽</strong></div><div class="mock-card-btn">Записаться</div></div></div>
+    </div>
+    <div class="mock-section-header"><div class="mock-section-label">команда</div><div class="mock-section-title">Наши преподаватели</div></div>
+    <div class="mock-teachers-grid">
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Алексей Илясов</div><div class="mock-teacher-role">Middle QA-тестировщик в СБЕР</div><span class="mock-teacher-tag">3+ года опыта</span></div></div>
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Юрий Гущин</div><div class="mock-teacher-role">Senior QA-тестировщик</div><span class="mock-teacher-tag">5+ лет опыта</span></div></div>
+      <div class="mock-teacher"><div class="mock-teacher-photo"><div class="mock-teacher-avatar"></div><div class="mock-teacher-accent-bar"></div></div><div class="mock-teacher-body"><div class="mock-teacher-name">Виталий Крутиков</div><div class="mock-teacher-role">Главный методолог, Системный аналитик</div><span class="mock-teacher-tag">5+ лет опыта</span></div></div>
+    </div>
+    <div class="mock-dark">
+      <div class="mock-dark-title">Не даём пустых гарантий.<br><em>Обучаем тому, что нужно</em></div>
+      <div class="mock-dark-sub">Реальная практика на каждом этапе обучения</div>
+      <div class="mock-steps">
+        <div class="mock-step"><div class="mock-step-num">01 / ПРАКТИКА</div><div class="mock-step-text"><strong>Учим на практике</strong>Домашка моделирует реальные рабочие ситуации</div></div>
+        <div class="mock-step"><div class="mock-step-num">02 / ИНТЕРВЬЮ</div><div class="mock-step-text"><strong>Готовим к собеседованиям</strong>Тестовые интервью перед трудоустройством</div></div>
+        <div class="mock-step"><div class="mock-step-num">03 / РАБОТА</div><div class="mock-step-text"><strong>Ищем работу за вас</strong>Составляем резюме и откликаемся на вакансии</div></div>
+      </div>
+      <div class="mock-dark-btn">Выбрать курс</div>
+    </div>
+    <footer class="mock-footer"><div class="mock-footer-logo">f<span>5</span>academy</div><div class="mock-footer-links"><span class="mock-footer-link">Политика конфиденциальности</span><span class="mock-footer-link">Договор оферты</span><span class="mock-footer-link">© 2025</span></div></footer>
+  </div>
+</div>
+
+<div style="text-align:center;padding:40px 20px;color:#333;font-size:13px;font-family:'Onest',sans-serif;">
+  Выбери номер → внедрим CSS-переменные в твой index.html за 15 минут
+</div>
+
+</body>
+</html>
