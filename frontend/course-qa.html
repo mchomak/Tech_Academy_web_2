@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA-Тестировщик — Tech Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0D0D0F;
+  --bg2:      #111114;
+  --surface:  #16161A;
+  --surface2: #1E1E24;
+  --border:   #2A2A32;
+  --accent:   #E8FF47;
+  --text:     #F0F0F5;
+  --text2:    #8888A0;
+  --text3:    #55556A;
+  --badge-bg: #1E2A00;
+  --r:        14px;
+  --rlg:      20px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Rubik',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+button{border:none;cursor:pointer;font-family:inherit;}
+ul{list-style:none;}
+img{display:block;max-width:100%;}
+
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 24px;border-bottom:1px solid transparent;transition:background .3s,border-color .3s,backdrop-filter .3s;}
+.nav.scrolled{background:rgba(13,13,15,.85);backdrop-filter:blur(16px);border-bottom-color:var(--border);}
+.nav-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:72px;}
+.nav-logo{font-size:20px;font-weight:800;letter-spacing:-.5px;}
+.nav-logo span{color:var(--accent);}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--text2);transition:color .2s;}
+.nav-back:hover{color:var(--text);}
+.nav-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.nav-cta{background:var(--accent);color:var(--bg);font-size:13px;font-weight:700;padding:10px 22px;border-radius:10px;transition:opacity .2s;}
+.nav-cta:hover{opacity:.85;}
+
+/* HERO */
+.hero{padding:140px 24px 80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:400px;background:var(--accent);opacity:.06;filter:blur(120px);border-radius:50%;pointer-events:none;}
+.hero-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--badge-bg);color:var(--accent);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:24px;}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+.hero h1{font-size:clamp(32px,4.5vw,52px);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:20px;}
+.hero h1 em{color:var(--accent);font-style:normal;}
+.hero-desc{font-size:16px;color:var(--text2);line-height:1.75;margin-bottom:36px;max-width:460px;}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:48px;}
+.btn-primary{background:var(--accent);color:var(--bg);font-size:15px;font-weight:700;padding:16px 36px;border-radius:12px;transition:transform .2s,opacity .2s;display:inline-block;border:none;cursor:pointer;}
+.btn-primary:hover{transform:scale(1.03);opacity:.9;}
+.btn-secondary{background:transparent;color:var(--text);font-size:15px;font-weight:600;padding:16px 36px;border-radius:12px;border:1px solid var(--border);transition:border-color .2s;display:inline-block;}
+.btn-secondary:hover{border-color:var(--text2);}
+.hero-stats{display:flex;gap:0;}
+.hero-stat{padding:0 28px 0 0;border-right:1px solid var(--border);margin-right:28px;}
+.hero-stat:last-child{border-right:none;margin-right:0;padding-right:0;}
+.hero-stat-val{font-size:28px;font-weight:800;letter-spacing:-1px;color:var(--accent);}
+.hero-stat-label{font-size:12px;color:var(--text3);margin-top:2px;}
+
+/* HERO VISUAL */
+.hero-visual{position:relative;}
+.hero-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rlg);padding:28px;position:relative;overflow:hidden;}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),transparent);}
+.hero-card-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+.hero-card-salary{font-size:36px;font-weight:900;letter-spacing:-1.5px;color:var(--accent);line-height:1;}
+.hero-card-salary-sub{font-size:13px;color:var(--text2);margin-top:4px;margin-bottom:24px;}
+.hero-card-bar{height:6px;background:var(--border);border-radius:4px;margin-bottom:8px;overflow:hidden;}
+.hero-card-bar-fill{height:100%;background:var(--accent);border-radius:4px;animation:barGrow 1.8s ease-out .5s both;}
+@keyframes barGrow{from{width:0%;}to{width:var(--w);}}
+.hero-card-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);}
+.hero-card-divider{height:1px;background:var(--border);margin:20px 0;}
+.hero-card-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.hero-card-row:last-child{margin-bottom:0;}
+.hero-card-icon{width:32px;height:32px;border-radius:8px;background:var(--badge-bg);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.hero-card-text{font-size:13px;color:var(--text2);}
+.hero-card-text strong{color:var(--text);font-weight:600;}
+
+/* EASIEST BADGE */
+.easiest-badge{display:inline-flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--accent);border-radius:12px;padding:14px 20px;margin-bottom:32px;}
+.easiest-badge-icon{font-size:22px;}
+.easiest-badge-text{font-size:14px;font-weight:600;color:var(--accent);}
+.easiest-badge-sub{font-size:12px;color:var(--text2);}
+
+/* SECTION */
+.section{padding:80px 24px;}
+.section-inner{max-width:1140px;margin:0 auto;}
+.section-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
+.section-title{font-size:clamp(26px,3.5vw,38px);font-weight:800;letter-spacing:-1px;line-height:1.15;margin-bottom:16px;}
+.section-title em{color:var(--accent);font-style:normal;}
+.section-sub{font-size:15px;color:var(--text2);line-height:1.7;max-width:560px;}
+
+/* WHO FITS */
+.who-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px;}
+.who-col-title{font-size:14px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.who-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;}
+.who-item:last-child{margin-bottom:0;}
+.who-dot{width:20px;height:20px;border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;}
+.who-dot.yes{background:var(--badge-bg);color:var(--accent);}
+.who-dot.no{background:rgba(255,80,80,.1);color:#ff6b6b;}
+.who-text{font-size:14px;color:var(--text2);line-height:1.6;}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:48px;}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:28px;position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
+.feature-card:hover{border-color:rgba(232,255,71,.3);box-shadow:0 8px 32px rgba(232,255,71,.06);}
+.feature-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);opacity:0;transition:opacity .3s;}
+.feature-card:hover::before{opacity:1;}
+.feature-num{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:2px;margin-bottom:14px;}
+.feature-icon{font-size:28px;margin-bottom:14px;}
+.feature-title{font-size:17px;font-weight:700;margin-bottom:8px;}
+.feature-text{font-size:13px;color:var(--text2);line-height:1.65;}
+
+/* TOOLS BLOCK */
+.tools-block{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rlg);padding:48px;margin-top:0;position:relative;overflow:hidden;}
+.tools-block::after{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:var(--accent);opacity:.05;filter:blur(80px);}
+.tools-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;}
+.tool-tag{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 18px;font-size:14px;font-weight:500;color:var(--text2);transition:border-color .2s,color .2s;}
+.tool-tag:hover{border-color:var(--accent);color:var(--text);}
+.tool-tag.hot{border-color:rgba(232,255,71,.35);color:var(--accent);}
+
+/* STEPS */
+.steps-wrap{margin-top:48px;position:relative;}
+.steps-line{position:absolute;left:19px;top:20px;bottom:20px;width:2px;background:linear-gradient(to bottom,var(--accent),transparent);opacity:.3;}
+.step-row{display:flex;gap:24px;margin-bottom:36px;position:relative;}
+.step-row:last-child{margin-bottom:0;}
+.step-num{width:40px;height:40px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0;position:relative;z-index:1;}
+.step-body{padding-top:8px;}
+.step-title{font-size:17px;font-weight:700;margin-bottom:6px;}
+.step-text{font-size:14px;color:var(--text2);line-height:1.65;}
+.step-badge{display:inline-block;background:var(--badge-bg);color:var(--accent);font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px;margin-top:8px;}
+
+/* PROGRAM */
+.program-list{margin-top:40px;}
+.module{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;}
+.module-header{display:flex;align-items:center;gap:16px;padding:20px 24px;cursor:pointer;user-select:none;}
+.module-num{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1.5px;min-width:32px;}
+.module-title{font-size:15px;font-weight:600;flex:1;}
+.module-duration{font-size:12px;color:var(--text3);margin-right:12px;}
+.module-arrow{width:20px;height:20px;stroke:var(--text3);fill:none;stroke-width:2;stroke-linecap:round;transition:transform .3s,stroke .2s;flex-shrink:0;}
+.module.open .module-arrow{transform:rotate(180deg);stroke:var(--accent);}
+.module-body{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.module.open .module-body{max-height:600px;}
+.module-topics{padding:0 24px 20px;display:flex;flex-wrap:wrap;gap:8px;}
+.module-topic{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:13px;color:var(--text2);}
+
+/* SALARY */
+.salary-section{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rlg);padding:48px;position:relative;overflow:hidden;}
+.salary-section::after{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:var(--accent);opacity:.05;filter:blur(80px);}
+.salary-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:0;align-items:center;margin-top:36px;}
+.salary-card{text-align:center;padding:24px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);}
+.salary-stage{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.salary-range{font-size:26px;font-weight:800;letter-spacing:-1px;color:var(--accent);}
+.salary-label{font-size:12px;color:var(--text3);margin-top:4px;}
+.salary-arrow{display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:20px;padding:0 16px;}
+
+/* FAQ */
+.faq-list{margin-top:40px;}
+.faq-item{border-bottom:1px solid var(--border);overflow:hidden;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;cursor:pointer;font-size:15px;font-weight:600;}
+.faq-icon{width:24px;height:24px;stroke:var(--text3);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;transition:transform .3s,stroke .2s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);stroke:var(--accent);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.faq-item.open .faq-a{max-height:400px;}
+.faq-a-inner{padding-bottom:20px;font-size:14px;color:var(--text2);line-height:1.7;}
+
+/* CTA */
+.cta-block{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rlg);padding:56px 64px;position:relative;overflow:hidden;text-align:center;}
+.cta-block::before{content:'';position:absolute;bottom:-80px;left:50%;transform:translateX(-50%);width:500px;height:300px;background:var(--accent);opacity:.07;filter:blur(80px);border-radius:50%;}
+.cta-title{font-size:clamp(26px,3.5vw,40px);font-weight:900;letter-spacing:-1.5px;margin-bottom:12px;}
+.cta-title em{color:var(--accent);font-style:normal;}
+.cta-sub{font-size:15px;color:var(--text2);margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;}
+.cta-actions{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
+.cta-note{font-size:12px;color:var(--text3);margin-top:16px;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:40px 36px;width:100%;max-width:440px;position:relative;animation:modalIn .35s ease-out;}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97);}to{opacity:1;transform:none;}}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--surface2);color:var(--text2);width:32px;height:32px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;transition:color .2s,background .2s;border:none;cursor:pointer;}
+.modal-close:hover{color:var(--text);background:var(--border);}
+.modal-title{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px;}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:28px;}
+.modal-fields{display:flex;flex-direction:column;gap:14px;}
+.form-input,.form-select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:15px 18px;font-size:14px;font-family:'Rubik',sans-serif;color:var(--text);outline:none;transition:border-color .25s;}
+.form-input::placeholder{color:var(--text3);}
+.form-input:focus,.form-select:focus{border-color:var(--accent);}
+.form-select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%238888A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 18px center;cursor:pointer;}
+.form-select option{background:var(--surface);color:var(--text);}
+.form-submit{width:100%;background:var(--accent);color:var(--bg);font-family:'Rubik',sans-serif;font-size:15px;font-weight:700;padding:16px;border-radius:12px;transition:opacity .25s;position:relative;margin-top:4px;border:none;cursor:pointer;}
+.form-submit:hover{opacity:.85;}
+.form-submit:disabled{opacity:.6;cursor:not-allowed;}
+.form-submit .loader{display:none;width:20px;height:20px;border:2px solid var(--bg);border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite;margin:0 auto;}
+.form-submit.loading .btn-text{visibility:hidden;}
+.form-submit.loading .loader{display:block;position:absolute;top:50%;left:50%;margin:-10px 0 0 -10px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.form-message{margin-top:14px;font-size:13px;padding:12px 16px;border-radius:10px;display:none;}
+.form-message.success{display:block;background:var(--badge-bg);color:var(--accent);border:1px solid rgba(232,255,71,.2);}
+.form-message.error{display:block;background:rgba(255,60,60,.1);color:#ff6b6b;border:1px solid rgba(255,60,60,.2);}
+
+/* TG FLOAT */
+.tg-float{position:fixed;bottom:28px;right:28px;width:52px;height:52px;background:#229ED9;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:1500;box-shadow:0 4px 20px rgba(34,158,217,.45);transition:transform .25s;}
+.tg-float:hover{transform:scale(1.1);}
+.tg-float svg{width:26px;height:26px;fill:#fff;}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--border);background:var(--bg2);padding:48px 24px 32px;}
+.footer-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:40px;margin-bottom:32px;}
+.footer-logo{font-size:20px;font-weight:800;margin-bottom:8px;}
+.footer-logo span{color:var(--accent);}
+.footer-desc{font-size:13px;color:var(--text3);line-height:1.6;}
+.footer-col-title{font-size:12px;font-weight:700;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;}
+.footer-col a{display:block;font-size:13px;color:var(--text3);margin-bottom:10px;transition:color .2s;}
+.footer-col a:hover{color:var(--text);}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;font-size:12px;color:var(--text3);max-width:1140px;margin:0 auto;}
+
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-visual{display:none;}
+  .who-grid{grid-template-columns:1fr;}
+  .features-grid{grid-template-columns:1fr;}
+  .salary-grid{grid-template-columns:1fr;}
+  .salary-arrow{display:none;}
+  .footer-inner{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .hero{padding:120px 20px 60px;}
+  .section{padding:60px 20px;}
+  .cta-block{padding:40px 24px;}
+  .hero-stats{flex-wrap:wrap;gap:20px;}
+  .hero-stat{border:none;padding:0;}
+  .footer-inner{grid-template-columns:1fr;}
+  .footer-bottom{flex-direction:column;gap:8px;}
+  .nav-back span{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Tech<b style="color:var(--accent)">Academy</b></span>
+    </a>
+    <button class="nav-cta" onclick="openModal()">Записаться на курс</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="reveal">
+      <div class="hero-tag"><span class="hero-tag-dot"></span>Курс · Тестировщик</div>
+      <h1>IT-профессия<br><em>QA-Тестировщик</em><br>с нуля за 2 месяца</h1>
+      <p class="hero-desc">Самая простая точка входа в IT. Без программирования, без математики — только внимательность и желание работать. Зарплата от 80 000 ₽ уже через 2 месяца.</p>
+      <div class="easiest-badge">
+        <div class="easiest-badge-icon">🏆</div>
+        <div>
+          <div class="easiest-badge-text">Самая лёгкая IT-профессия</div>
+          <div class="easiest-badge-sub">Минимальный порог входа на рынке</div>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="openModal()">Записаться на курс</button>
+        <a href="#program" class="btn-secondary">Программа обучения</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-val">2</div>
+          <div class="hero-stat-label">месяца обучения</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-val">80k+</div>
+          <div class="hero-stat-label">старт карьеры</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-val">240k</div>
+          <div class="hero-stat-label">потолок рынка</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal" style="transition-delay:.2s">
+      <div class="hero-card">
+        <div class="hero-card-label">Зарплата в РФ · 2026</div>
+        <div class="hero-card-salary">80 — 240k ₽</div>
+        <div class="hero-card-salary-sub">в месяц после трудоустройства</div>
+        <div class="hero-card-bar">
+          <div class="hero-card-bar-fill" style="--w:74%"></div>
+        </div>
+        <div class="hero-card-bar-label"><span>Junior</span><span>74% вакансий без опыта</span></div>
+        <div class="hero-card-divider"></div>
+        <div class="hero-card-row">
+          <div class="hero-card-icon">⚡</div>
+          <div class="hero-card-text"><strong>2 месяца</strong> до первого оффера</div>
+        </div>
+        <div class="hero-card-row">
+          <div class="hero-card-icon">🎯</div>
+          <div class="hero-card-text"><strong>Без кода</strong> — только тест-кейсы и логика</div>
+        </div>
+        <div class="hero-card-row">
+          <div class="hero-card-icon">📈</div>
+          <div class="hero-card-text"><strong>Быстрый рост</strong> — через год уже Middle</div>
+        </div>
+        <div class="hero-card-row">
+          <div class="hero-card-icon">🏠</div>
+          <div class="hero-card-text"><strong>Удалёнка</strong> — большинство вакансий remote</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO FITS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Кому подходит</div>
+      <h2 class="section-title">QA подойдёт,<br>если вы <em>внимательны и дотошны</em></h2>
+      <p class="section-sub">Хороший тестировщик — это человек, который замечает то, что другие пропустили. Опыт в IT не нужен.</p>
+    </div>
+    <div class="who-grid reveal" style="transition-delay:.1s">
+      <div>
+        <div class="who-col-title">✓ Вам подойдёт курс</div>
+        <div class="who-item">
+          <div class="who-dot yes">✓</div>
+          <div class="who-text">Хотите войти в IT максимально быстро и без программирования</div>
+        </div>
+        <div class="who-item">
+          <div class="who-dot yes">✓</div>
+          <div class="who-text">Вы внимательны к деталям — замечаете ошибки там, где другие не видят</div>
+        </div>
+        <div class="who-item">
+          <div class="who-dot yes">✓</div>
+          <div class="who-text">Любите разбираться как работают приложения и сайты</div>
+        </div>
+        <div class="who-item">
+          <div class="who-dot yes">✓</div>
+          <div class="who-text">Готовы уделять 3–4 часа в неделю и выполнять задания</div>
+        </div>
+        <div class="who-item">
+          <div class="who-dot yes">✓</div>
+          <div class="who-text">Хотите работать удалённо и стабильно зарабатывать</div>
+        </div>
+      </div>
+      <div>
+        <div class="who-col-title">✗ Курс не подойдёт</div>
+        <div class="who-item">
+          <div class="who-dot no">✗</div>
+          <div class="who-text">Ожидаете результат без практики и домашних заданий</div>
+        </div>
+        <div class="who-item">
+          <div class="who-dot no">✗</div>
+          <div class="who-text">Не готовы проходить собеседования и получать отказы</div>
+        </div>
+        <div class="who-item">
+          <div class="who-dot no">✗</div>
+          <div class="who-text">Хотите только сертификат, а не реальные навыки</div>
+        </div>
+        <div class="who-item">
+          <div class="who-dot no">✗</div>
+          <div class="who-text">Не интересно разбираться в логике работы продуктов</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="tools-block reveal">
+      <div class="section-eyebrow">Инструменты</div>
+      <h2 class="section-title" style="margin-bottom:8px;">Что вы освоите<br><em>в процессе обучения</em></h2>
+      <p class="section-sub">Все инструменты, которые реально используются в работе QA-инженеров в 2026 году.</p>
+      <div class="tools-grid">
+        <span class="tool-tag hot">Jira</span>
+        <span class="tool-tag hot">Postman</span>
+        <span class="tool-tag hot">Charles Proxy</span>
+        <span class="tool-tag hot">DevTools</span>
+        <span class="tool-tag">TestRail</span>
+        <span class="tool-tag">Confluence</span>
+        <span class="tool-tag">SQL основы</span>
+        <span class="tool-tag">Git основы</span>
+        <span class="tool-tag">Swagger</span>
+        <span class="tool-tag">Figma (чтение макетов)</span>
+        <span class="tool-tag">Android Studio</span>
+        <span class="tool-tag">Xcode симулятор</span>
+        <span class="tool-tag">BrowserStack</span>
+        <span class="tool-tag">Trello</span>
+        <span class="tool-tag">Notion</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMAT -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Формат обучения</div>
+      <h2 class="section-title">Как устроен курс</h2>
+      <p class="section-sub">Никаких скучных лекций. Практика с первого урока, реальные баг-репорты и тест-кейсы.</p>
+    </div>
+    <div class="features-grid reveal" style="transition-delay:.1s">
+      <div class="feature-card">
+        <div class="feature-num">01</div>
+        <div class="feature-icon">🎬</div>
+        <div class="feature-title">Видеоуроки с разборами</div>
+        <div class="feature-text">Уроки по 15–25 минут с реальными примерами из практики. Показываем как находить баги, писать тест-кейсы и работать с инструментами.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">02</div>
+        <div class="feature-icon">🐞</div>
+        <div class="feature-title">Реальные баг-репорты</div>
+        <div class="feature-text">Практикуетесь на живых приложениях: находите баги, оформляете баг-репорты и тест-кейсы как настоящий QA-инженер.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">03</div>
+        <div class="feature-icon">👩‍💻</div>
+        <div class="feature-title">Наставник на связи</div>
+        <div class="feature-text">Куратор проверяет каждое задание и отвечает на вопросы. Разбираем типичные ошибки и готовимся к реальной работе в команде.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">04</div>
+        <div class="feature-icon">💼</div>
+        <div class="feature-title">Портфолио и трудоустройство</div>
+        <div class="feature-text">На выходе у вас будет портфолио с реальными кейсами, готовое резюме и прокачанный LinkedIn. Помогаем откликаться на вакансии.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM -->
+<section class="section" id="program" style="padding-top:0">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Программа</div>
+      <h2 class="section-title">8 модулей<br><em>за 2 месяца</em></h2>
+      <p class="section-sub">От основ тестирования до API и мобильного QA — полный набор знаний для старта карьеры.</p>
+    </div>
+    <div class="program-list reveal" style="transition-delay:.1s">
+
+      <div class="module open">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-num">01</div>
+          <div class="module-title">Основы тестирования ПО</div>
+          <div class="module-duration">1 неделя</div>
+          <svg class="module-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="module-body">
+          <div class="module-topics">
+            <span class="module-topic">Что такое тестирование</span>
+            <span class="module-topic">Виды тестирования</span>
+            <span class="module-topic">SDLC и место QA</span>
+            <span class="module-topic">Баг-лайфсайкл</span>
+            <span class="module-topic">Тестовая документация</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-num">02</div>
+          <div class="module-title">Тест-кейсы и чек-листы</div>
+          <div class="module-duration">1 неделя</div>
+          <svg class="module-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="module-body">
+          <div class="module-topics">
+            <span class="module-topic">Написание тест-кейсов</span>
+            <span class="module-topic">Чек-листы</span>
+            <span class="module-topic">Техники тест-дизайна</span>
+            <span class="module-topic">Эквивалентное разбиение</span>
+            <span class="module-topic">Граничные значения</span>
+            <span class="module-topic">TestRail / Qase</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-num">03</div>
+          <div class="module-title">Работа с баг-репортами и Jira</div>
+          <div class="module-duration">1 неделя</div>
+          <svg class="module-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="module-body">
+          <div class="module-topics">
+            <span class="module-topic">Структура баг-репорта</span>
+            <span class="module-topic">Severity vs Priority</span>
+            <span class="module-topic">Jira на практике</span>
+            <span class="module-topic">Confluence</span>
+            <span class="module-topic">Работа с командой разработки</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-num">04</div>
+          <div class="module-title">Тестирование веб-приложений</div>
+          <div class="module-duration">1 неделя</div>
+          <svg class="module-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="module-body">
+          <div class="module-topics">
+            <span class="module-topic">Chrome DevTools</span>
+            <span class="module-topic">Кроссбраузерное тестирование</span>
+            <span class="module-topic">Тестирование форм</span>
+            <span class="module-topic">Проверка верстки</span>
+            <span class="module-topic">BrowserStack</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-num">05</div>
+          <div class="module-title">Тестирование API</div>
+          <div class="module-duration">1.5 недели</div>
+          <svg class="module-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="module-body">
+          <div class="module-topics">
+            <span class="module-topic">REST API основы</span>
+            <span class="module-topic">HTTP методы и коды</span>
+            <span class="module-topic">Postman</span>
+            <span class="module-topic">Swagger</span>
+            <span class="module-topic">Charles Proxy</span>
+            <span class="module-topic">JSON / XML</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-num">06</div>
+          <div class="module-title">Мобильное тестирование</div>
+          <div class="module-duration">1 неделя</div>
+          <svg class="module-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="module-body">
+          <div class="module-topics">
+            <span class="module-topic">iOS vs Android различия</span>
+            <span class="module-topic">Эмуляторы и симуляторы</span>
+            <span class="module-topic">Специфика мобильного QA</span>
+            <span class="module-topic">Логи устройств</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-num">07</div>
+          <div class="module-title">SQL и основы баз данных</div>
+          <div class="module-duration">0.5 недели</div>
+          <svg class="module-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="module-body">
+          <div class="module-topics">
+            <span class="module-topic">SELECT, WHERE, JOIN</span>
+            <span class="module-topic">Проверка данных через БД</span>
+            <span class="module-topic">Поиск багов на уровне данных</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-header" onclick="toggleModule(this)">
+          <div class="module-num">08</div>
+          <div class="module-title">Финальный проект + портфолио</div>
+          <div class="module-duration">1 неделя</div>
+          <svg class="module-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="module-body">
+          <div class="module-topics">
+            <span class="module-topic">Полный цикл тестирования приложения</span>
+            <span class="module-topic">Оформление портфолио</span>
+            <span class="module-topic">Составление резюме</span>
+            <span class="module-topic">Подготовка к собеседованию</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE STEPS -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Наши гарантии</div>
+      <h2 class="section-title">Сопровождаем до<br><em>первой работы</em></h2>
+    </div>
+    <div class="steps-wrap reveal" style="transition-delay:.1s">
+      <div class="steps-line"></div>
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Практика с первого дня</div>
+          <div class="step-text">Каждый модуль заканчивается практическим заданием на реальном продукте. Пишете баг-репорты и тест-кейсы, которые потом покажете на собеседовании.</div>
+          <span class="step-badge">2 месяца</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Тестовое собеседование</div>
+          <div class="step-text">Проводим mock-интервью в формате реального технического собеседования. Разбираем типичные вопросы, тренируем ответы, убираем страх.</div>
+          <span class="step-badge">2–3 сессии</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Готовое резюме и портфолио</div>
+          <div class="step-text">Составляем резюме вместе, помогаем оформить портфолио с реальными кейсами курса. Подготовим профиль на hh.ru и LinkedIn.</div>
+          <span class="step-badge">Перед выходом на рынок</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Откликаемся вместе</div>
+          <div class="step-text">Находим подходящие вакансии, откликаемся и сопровождаем до оффера. Без ограничений по времени — пока не устроитесь.</div>
+          <span class="step-badge">До трудоустройства</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SALARY -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="salary-section reveal">
+      <div class="section-eyebrow">Карьерный рост</div>
+      <h2 class="section-title" style="max-width:560px;margin-bottom:8px;">Как растёт зарплата<br><em>QA-тестировщика</em></h2>
+      <p class="section-sub">Средние данные по рынку РФ, 2026 год.</p>
+      <div class="salary-grid">
+        <div class="salary-card">
+          <div class="salary-stage">Junior · 0–1 год</div>
+          <div class="salary-range">60–100k ₽</div>
+          <div class="salary-label">первые 6–12 месяцев</div>
+        </div>
+        <div class="salary-arrow">→</div>
+        <div class="salary-card">
+          <div class="salary-stage">Middle · 1–3 года</div>
+          <div class="salary-range">100–200k ₽</div>
+          <div class="salary-label">через год-полтора</div>
+        </div>
+        <div class="salary-arrow">→</div>
+        <div class="salary-card">
+          <div class="salary-stage">Senior / Lead · 3+ лет</div>
+          <div class="salary-range">180–240k ₽</div>
+          <div class="salary-label">опытные специалисты</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Вопросы и ответы</div>
+      <h2 class="section-title">Частые вопросы</h2>
+    </div>
+    <div class="faq-list reveal" style="transition-delay:.1s">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Нужно ли уметь программировать?
+          <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Нет. Ручное QA-тестирование не требует написания кода. Вы научитесь работать с Postman, DevTools и Jira — это инструменты, не программирование. При желании после курса можно изучить автоматизацию, но это следующий шаг.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Почему QA называют самой лёгкой IT-профессией?
+          <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Потому что не нужно уметь писать код, знать математику или иметь техническое образование. Нужны внимательность, логика и желание разобраться как работает продукт. Именно поэтому QA — самый популярный первый шаг в IT.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Реально ли найти работу за 2 месяца?
+          <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Да. Рынок QA активно нанимает джунов — компании понимают, что специалиста проще вырастить внутри. Среднее время трудоустройства наших выпускников — 6–10 недель после окончания курса при активном поиске.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Можно ли потом вырасти до автоматизатора?
+          <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Да, это классический путь. Сначала ручное тестирование → через год изучаете Python или JavaScript для автотестов → зарплата резко вырастает до 200–350k. Многие наши выпускники идут именно по этому пути.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Что если я не найду работу после курса?
+          <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Мы сопровождаем без ограничений по времени. Если через 3 месяца после окончания работы нет — продолжаем бесплатно помогать с поиском. Нам важен ваш результат, а не закрытие контракта.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Сколько времени нужно уделять в неделю?
+          <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">3–5 часов в неделю. Формат полностью асинхронный — смотрите уроки и делаете задания в удобное время. Большинство студентов учатся параллельно с текущей работой.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding-top:0;padding-bottom:80px">
+  <div class="section-inner">
+    <div class="cta-block reveal">
+      <div class="section-eyebrow" style="margin-bottom:16px;">Начни уже сейчас</div>
+      <h2 class="cta-title">Запишись и получи<br><em>первый оффер за 2 месяца</em></h2>
+      <p class="cta-sub">Следующий поток стартует скоро. Работаем в небольших группах — мест немного.</p>
+      <div class="cta-actions">
+        <button class="btn-primary" onclick="openModal()">Записаться на курс</button>
+        <a href="https://t.me/s_wxw" target="_blank" class="btn-secondary">Задать вопрос в Telegram</a>
+      </div>
+      <div class="cta-note">Ответим в течение 15 минут · Без навязчивых звонков</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-title">Записаться на курс</div>
+    <div class="modal-sub">Свяжемся в течение 15 минут</div>
+    <form id="leadForm" class="modal-fields" novalidate>
+      <input type="text" class="form-input" name="name" placeholder="Ваше имя" required>
+      <input type="tel" class="form-input" name="phone" placeholder="Телефон" required>
+      <input type="email" class="form-input" name="email" placeholder="Email">
+      <input type="text" class="form-input" name="telegram" placeholder="Telegram (@ник)">
+      <select class="form-select" name="course" required>
+        <option value="" disabled>Выберите курс</option>
+        <option value="system-analyst">Системный аналитик ISA</option>
+        <option value="qa" selected>QA-Тестировщик</option>
+        <option value="flutter">Flutter-разработчик</option>
+      </select>
+      <button type="submit" class="form-submit" id="submitBtn">
+        <span class="btn-text">Отправить заявку</span>
+        <span class="loader"></span>
+      </button>
+    </form>
+    <div class="form-message" id="formMessage"></div>
+  </div>
+</div>
+
+<!-- TG FLOAT -->
+<a href="https://t.me/s_wxw" target="_blank" class="tg-float" title="Написать в Telegram">
+  <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.008 9.463c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.12 14.051l-2.948-.924c-.64-.203-.655-.64.136-.948l11.52-4.44c.533-.194 1.003.13.734.51z"/></svg>
+</a>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Tech<span>Academy</span></div>
+      <div class="footer-desc">Онлайн IT-академия.<br>От нуля до трудоустройства.</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Курсы</div>
+      <a href="course-analyst.html">Системный аналитик</a>
+      <a href="course-qa.html">QA-Тестировщик</a>
+      <a href="course-flutter.html">Flutter-разработчик</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Компания</div>
+      <a href="index.html#guarantees">О нас</a>
+      <a href="https://t.me/s_wxw" target="_blank">Контакты</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Документы</div>
+      <a href="#">Политика конфиденциальности</a>
+      <a href="#">Договор оферты</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Tech Academy. Все права защищены.</span>
+    <span>Сделано с ❤ в России</span>
+  </div>
+</footer>
+
+<script>
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function() {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, {passive:true});
+
+var revealObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+  });
+}, {threshold: 0.12});
+document.querySelectorAll('.reveal').forEach(function(el) { revealObs.observe(el); });
+
+function toggleModule(header) {
+  header.parentElement.classList.toggle('open');
+}
+function toggleFaq(q) {
+  q.parentElement.classList.toggle('open');
+}
+function openModal() {
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+document.getElementById('leadForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var msg = document.getElementById('formMessage');
+  msg.className = 'form-message';
+  var name = this.name.value.trim();
+  var phone = this.phone.value.trim();
+  var course = this.course.value;
+  if (!name || !phone || !course) {
+    msg.textContent = 'Заполните имя, телефон и выберите курс.';
+    msg.className = 'form-message error';
+    return;
+  }
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.classList.add('loading');
+  fetch('/api/lead', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({name:name, phone:phone, email:this.email.value.trim(), telegram:this.telegram.value.trim(), course:course})
+  })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function() {
+    msg.textContent = '✅ Заявка принята! Свяжемся с вами в ближайшее время.';
+    msg.className = 'form-message success';
+    document.getElementById('leadForm').reset();
+    setTimeout(closeModal, 2500);
+  })
+  .catch(function() {
+    msg.textContent = 'Не удалось отправить. Попробуйте позже.';
+    msg.className = 'form-message error';
+  })
+  .finally(function() { btn.disabled = false; btn.classList.remove('loading'); });
+});
+</script>
+</body>
+</html>
