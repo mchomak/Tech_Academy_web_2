@@ -6,8 +6,8 @@
 const SITE_CONFIG = {
 
   /* Telegram */
-  telegram: 'https://t.me/s_wxw',          // ← твоя ссылка на TG
-  telegramUsername: '@s_wxw',               // ← отображаемый ник
+  telegram: 'https://t.me/techrisehelp',          // ← твоя ссылка на TG
+  telegramUsername: '@techrisehelp',               // ← отображаемый ник
 
   /* Email */
   email: 'info@TechRiseAcademy.ru',
