@@ -14,7 +14,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 
-app = FastAPI(title="f5academy API")
+app = FastAPI(title="academy API")
 
 allowed_origins = [
     o.strip()
