@@ -14,6 +14,7 @@ router = APIRouter()
 class LeadRequest(BaseModel):
     name: str
     phone: str
+    telegram: str
     course: str
 
     @field_validator("name")
@@ -38,6 +39,13 @@ class LeadRequest(BaseModel):
             raise ValueError("Курс не может быть пустым")
         return v.strip()
 
+    @field_validator("telegram")
+    @classmethod
+    def telegram_not_empty(cls, v: str) -> str:
+        if not v.strip():
+            raise ValueError("telegram не может быть пустым")
+        return v.strip()
+
 
 @router.post("/api/lead")
 async def create_lead(lead: LeadRequest):
@@ -49,6 +57,7 @@ async def create_lead(lead: LeadRequest):
         "\U0001f525 Новая заявка!\n"
         f"\U0001f464 Имя: {lead.name}\n"
         f"\U0001f4de Телефон: {lead.phone}\n"
+        f"\U0001f4de Telegram: {lead.telegram}\n"
         f"\U0001f4da Курс: {lead.course}\n"
         f"\U0001f550 Время: {now}"
     )
