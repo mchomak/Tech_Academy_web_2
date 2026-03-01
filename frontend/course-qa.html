@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>QA-Тестировщик — Tech Rise Academy</title>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js-enabled');</script>
 <script src="config.js"></script>
 <style>
 :root {
@@ -29,8 +30,9 @@ button{border:none;cursor:pointer;font-family:'Rubik',sans-serif;}
 ul{list-style:none;}
 img{display:block;max-width:100%;}
 
-.reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease;}
-.reveal.visible{opacity:1;transform:none;}
+.reveal{transition:opacity .7s ease,transform .7s ease;}
+.js-enabled .reveal{opacity:0;transform:translateY(36px);}
+.js-enabled .reveal.visible{opacity:1;transform:none;}
 
 /* NAV */
 .nav{
@@ -261,7 +263,7 @@ h1,h2,h3,h4,h5,h6,
 <!-- NAV -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-back">
+    <a href="/" class="nav-back">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       <span>TechRise<b style="color:var(--accent)">Academy</b></span>
     </a>
@@ -772,13 +774,13 @@ h1,h2,h3,h4,h5,h6,
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Курсы</div>
-      <a href="course-analyst.html">Системный аналитик</a>
-      <a href="course-qa.html">QA-Тестировщик</a>
-      <a href="course-flutter.html">Flutter-разработчик</a>
+      <a href="course-analyst">Системный аналитик</a>
+      <a href="course-qa">QA-Тестировщик</a>
+      <a href="course-flutter">Flutter-разработчик</a>
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Компания</div>
-      <a href="index.html#guarantees">О нас</a>
+      <a href="/#guarantees">О нас</a>
       <a id="footer-contacts-link" href="#" target="_blank">Контакты</a>
     </div>
     <div class="footer-col">
