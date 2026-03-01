@@ -244,6 +244,10 @@ img{display:block;max-width:100%;}
   .footer-inner{grid-template-columns:1fr;}
   .footer-bottom{flex-direction:column;gap:8px;}
   .nav-back span{display:none;}
+  .compare-table th:first-child{display:none;}
+  .compare-table td:first-child{display:none;}
+  .compare-table th.col-bad{border-radius:8px 0 0 0;}
+  .compare-table th.col-good{border-radius:0 8px 0 0;}
 }
 </style>
 </head>
@@ -317,34 +321,6 @@ img{display:block;max-width:100%;}
           <div class="hero-card-icon">🏠</div>
           <div class="hero-card-text"><strong>Удалённо</strong> — работа из любой точки мира</div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WHO FITS -->
-<section class="section">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="section-eyebrow">Кому подходит</div>
-      <h2 class="section-title">Отберём тех, кто готов<br><em>учиться и работать</em></h2>
-      <p class="section-sub">Мы не берём всех подряд. Нам важно, чтобы выпускник точно нашёл работу — поэтому отбор честный.</p>
-    </div>
-    <div class="who-grid reveal" style="transition-delay:.1s">
-      <div>
-        <div class="who-col-title">✓ Вам подойдёт курс</div>
-        <div class="who-item"><div class="who-dot yes">✓</div><div class="who-text">Хотите сменить сферу и уйти в IT без программирования</div></div>
-        <div class="who-item"><div class="who-dot yes">✓</div><div class="who-text">Готовы уделять обучению 4–5 часов в неделю</div></div>
-        <div class="who-item"><div class="who-dot yes">✓</div><div class="who-text">Умеете структурировать информацию и думать системно</div></div>
-        <div class="who-item"><div class="who-dot yes">✓</div><div class="who-text">Хотите работать удалённо и зарабатывать 200k+</div></div>
-        <div class="who-item"><div class="who-dot yes">✓</div><div class="who-text">Есть базовое понимание бизнес-процессов (любой опыт работы)</div></div>
-      </div>
-      <div>
-        <div class="who-col-title">✗ Курс не подойдёт</div>
-        <div class="who-item"><div class="who-dot no">✗</div><div class="who-text">Ищете курс «посмотреть и забыть» без практики</div></div>
-        <div class="who-item"><div class="who-dot no">✗</div><div class="who-text">Не готовы выполнять домашние задания и получать фидбек</div></div>
-        <div class="who-item"><div class="who-dot no">✗</div><div class="who-text">Хотите «сертификат для резюме» без реальных навыков</div></div>
-        <div class="who-item"><div class="who-dot no">✗</div><div class="who-text">Рассчитываете найти работу без прохождения собеседований</div></div>
       </div>
     </div>
   </div>
@@ -632,6 +608,34 @@ img{display:block;max-width:100%;}
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- WHO FITS -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Кому подходит</div>
+      <h2 class="section-title">Отберём тех, кто готов<br><em>учиться и работать</em></h2>
+      <p class="section-sub">Мы не берём всех подряд. Нам важно, чтобы выпускник точно нашёл работу — поэтому отбор честный.</p>
+    </div>
+    <div class="who-grid reveal" style="transition-delay:.1s">
+      <div>
+        <div class="who-col-title">✓ Вам подойдёт курс</div>
+        <div class="who-item"><div class="who-dot yes">✓</div><div class="who-text">Хотите сменить сферу и уйти в IT без программирования</div></div>
+        <div class="who-item"><div class="who-dot yes">✓</div><div class="who-text">Готовы уделять обучению 4–5 часов в неделю</div></div>
+        <div class="who-item"><div class="who-dot yes">✓</div><div class="who-text">Умеете структурировать информацию и думать системно</div></div>
+        <div class="who-item"><div class="who-dot yes">✓</div><div class="who-text">Хотите работать удалённо и зарабатывать 200k+</div></div>
+        <div class="who-item"><div class="who-dot yes">✓</div><div class="who-text">Есть базовое понимание бизнес-процессов (любой опыт работы)</div></div>
+      </div>
+      <div>
+        <div class="who-col-title">✗ Курс не подойдёт</div>
+        <div class="who-item"><div class="who-dot no">✗</div><div class="who-text">Ищете курс «посмотреть и забыть» без практики</div></div>
+        <div class="who-item"><div class="who-dot no">✗</div><div class="who-text">Не готовы выполнять домашние задания и получать фидбек</div></div>
+        <div class="who-item"><div class="who-dot no">✗</div><div class="who-text">Хотите «сертификат для резюме» без реальных навыков</div></div>
+        <div class="who-item"><div class="who-dot no">✗</div><div class="who-text">Рассчитываете найти работу без прохождения собеседований</div></div>
+      </div>
     </div>
   </div>
 </section>
