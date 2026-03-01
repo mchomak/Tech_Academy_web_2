@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Tech Rise Academy — IT Академия</title>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js-enabled');</script>
 <script src="config.js"></script>
 <style>
 /* ── CSS VARIABLES (MIDNIGHT CARBON) ── */
@@ -54,11 +55,13 @@ input, select { font-family: 'Rubik', sans-serif; }
 }
 
 .animate-on-scroll {
-  opacity: 0;
-  transform: translateY(40px);
   transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
-.animate-on-scroll.visible {
+.js-enabled .animate-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.js-enabled .animate-on-scroll.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -917,7 +920,7 @@ h1,h2,h3,h4,h5,h6,
         <div class="course-card-salary">Зарплата: <strong>200–500k ₽</strong></div>
         <div style="display:flex;gap:8px;margin-top:16px;">
           <button class="course-card-btn" style="margin-top:0" onclick="openModal('system-analyst')">Записаться</button>
-          <a href="course-analyst.html" class="course-card-btn" style="margin-top:0;background:transparent;border:1px solid var(--border);color:var(--text);">Подробнее</a>
+          <a href="course-analyst" class="course-card-btn" style="margin-top:0;background:transparent;border:1px solid var(--border);color:var(--text);">Подробнее</a>
         </div>
       </div>
     </div>
@@ -932,7 +935,7 @@ h1,h2,h3,h4,h5,h6,
         <div class="course-card-salary">Зарплата: <strong>80–240k ₽</strong></div>
         <div style="display:flex;gap:8px;margin-top:16px;">
           <button class="course-card-btn" style="margin-top:0" onclick="openModal('qa')">Записаться</button>
-          <a href="course-qa.html" class="course-card-btn" style="margin-top:0;background:transparent;border:1px solid var(--border);color:var(--text);">Подробнее</a>
+          <a href="course-qa" class="course-card-btn" style="margin-top:0;background:transparent;border:1px solid var(--border);color:var(--text);">Подробнее</a>
         </div>
       </div>
     </div>
@@ -947,7 +950,7 @@ h1,h2,h3,h4,h5,h6,
         <div class="course-card-salary">Зарплата: <strong>100–300k ₽</strong></div>
       <div style="display:flex;gap:8px;margin-top:16px;">
         <button class="course-card-btn" style="margin-top:0" onclick="openModal('flutter')">Записаться</button>
-        <a href="course-flutter.html" class="course-card-btn" style="margin-top:0;background:transparent;border:1px solid var(--border);color:var(--text);">Подробнее</a>
+        <a href="course-flutter" class="course-card-btn" style="margin-top:0;background:transparent;border:1px solid var(--border);color:var(--text);">Подробнее</a>
       </div>
       </div>
     </div>
@@ -1088,9 +1091,9 @@ h1,h2,h3,h4,h5,h6,
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Курсы</div>
-      <a href="course-analyst.html">Системный аналитик</a>
-      <a href="course-qa.html">QA-Тестировщик</a>
-      <a href="course-flutter.html">Flutter-разработчик</a>
+      <a href="course-analyst">Системный аналитик</a>
+      <a href="course-qa">QA-Тестировщик</a>
+      <a href="course-flutter">Flutter-разработчик</a>
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Компания</div>
