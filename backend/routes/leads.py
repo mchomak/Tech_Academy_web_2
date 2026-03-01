@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel, field_validator
 
 from services.telegram import send_telegram_notification
@@ -48,7 +48,7 @@ class LeadRequest(BaseModel):
 
 
 @router.post("/api/lead")
-async def create_lead(lead: LeadRequest):
+async def create_lead(lead: LeadRequest, background_tasks: BackgroundTasks):
     now = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
     logger.info("New lead: %s / %s", lead.name, lead.course)
@@ -62,9 +62,6 @@ async def create_lead(lead: LeadRequest):
         f"\U0001f550 Время: {now}"
     )
 
-    try:
-        await send_telegram_notification(text)
-    except Exception as exc:
-        logger.error("Telegram notification failed: %s", exc)
+    background_tasks.add_task(send_telegram_notification, text)
 
     return {"status": "ok", "message": "Заявка принята"}
