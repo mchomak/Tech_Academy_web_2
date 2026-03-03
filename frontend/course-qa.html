@@ -749,7 +749,6 @@ h1,h2,h3,h4,h5,h6,
         <option value="" disabled>Выберите курс</option>
         <option value="system-analyst">Системный аналитик ISA</option>
         <option value="qa" selected>QA-Тестировщик</option>
-        <option value="flutter">Flutter-разработчик</option>
       </select>
       <button type="submit" class="form-submit" id="submitBtn">
         <span class="btn-text">Отправить заявку</span>
@@ -776,7 +775,6 @@ h1,h2,h3,h4,h5,h6,
       <div class="footer-col-title">Курсы</div>
       <a href="course-analyst">Системный аналитик</a>
       <a href="course-qa">QA-Тестировщик</a>
-      <a href="course-flutter">Flutter-разработчик</a>
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Компания</div>
@@ -875,6 +873,20 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
   var offer = document.getElementById('footer-offer-link');
   if (offer) offer.href = SITE_CONFIG.offerContract;
 })();
+/* Safari bf-cache: fix blank screen after background/foreground */
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) {
+    document.body.style.display = 'none';
+    document.body.offsetHeight;
+    document.body.style.display = '';
+  }
+});
+document.addEventListener('visibilitychange', function() {
+  if (document.visibilityState === 'visible') {
+    document.body.style.opacity = '0.99';
+    requestAnimationFrame(function() { document.body.style.opacity = ''; });
+  }
+});
 </script>
 </body>
 </html>
