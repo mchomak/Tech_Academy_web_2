@@ -7,6 +7,8 @@ services:
       - .env
     expose:
       - "8000"
+    volumes:
+      - backend-data:/app/data
     restart: unless-stopped
 
   frontend:
@@ -22,3 +24,6 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+
+volumes:
+  backend-data:

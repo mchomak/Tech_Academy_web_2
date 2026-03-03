@@ -13,14 +13,8 @@ MAX_ATTEMPTS = 3
 RETRY_DELAYS = [10, 30]
 
 
-async def send_telegram_notification(text: str) -> None:
-    token = os.getenv("TG_BOT_TOKEN", "")
-    chat_id = os.getenv("TG_CHAT_ID", "")
-
-    if not token or not chat_id:
-        logger.warning("TG_BOT_TOKEN or TG_CHAT_ID not set — skipping notification")
-        return
-
+async def _send_to_chat(token: str, chat_id: int, text: str) -> None:
+    """Send a message to a single chat with retry logic."""
     url = f"{TG_API}/bot{token}/sendMessage"
     payload = {
         "chat_id": chat_id,
@@ -34,35 +28,59 @@ async def send_telegram_notification(text: str) -> None:
                 resp = await client.post(url, json=payload)
 
             if resp.status_code == 200:
-                logger.info("Telegram notification sent (attempt %d)", attempt)
+                logger.info("Telegram notification sent to %s (attempt %d)", chat_id, attempt)
                 return
 
-            # 4xx — ошибка конфигурации (неверный токен, chat_id), ретрай не поможет
             if 400 <= resp.status_code < 500:
                 logger.error(
-                    "Telegram API client error %s: %s — not retrying",
+                    "Telegram API client error %s for chat %s: %s — not retrying",
                     resp.status_code,
+                    chat_id,
                     resp.text,
                 )
                 return
 
             logger.warning(
-                "Telegram API server error %s (attempt %d/%d)",
+                "Telegram API server error %s for chat %s (attempt %d/%d)",
                 resp.status_code,
+                chat_id,
                 attempt,
                 MAX_ATTEMPTS,
             )
 
         except httpx.TimeoutException as exc:
-            logger.warning("Telegram request timed out (attempt %d/%d): %s", attempt, MAX_ATTEMPTS, exc)
+            logger.warning("Telegram timeout for chat %s (attempt %d/%d): %s", chat_id, attempt, MAX_ATTEMPTS, exc)
         except httpx.ConnectError as exc:
-            logger.warning("Telegram connection error (attempt %d/%d): %s", attempt, MAX_ATTEMPTS, exc)
+            logger.warning("Telegram connect error for chat %s (attempt %d/%d): %s", chat_id, attempt, MAX_ATTEMPTS, exc)
         except Exception as exc:
-            logger.warning("Telegram unexpected error (attempt %d/%d): %s", attempt, MAX_ATTEMPTS, exc)
+            logger.warning("Telegram error for chat %s (attempt %d/%d): %s", chat_id, attempt, MAX_ATTEMPTS, exc)
 
         if attempt < MAX_ATTEMPTS:
             delay = RETRY_DELAYS[attempt - 1]
-            logger.info("Retrying Telegram notification in %ds...", delay)
+            logger.info("Retrying in %ds...", delay)
             await asyncio.sleep(delay)
 
-    logger.error("Telegram notification failed after %d attempts", MAX_ATTEMPTS)
+    logger.error("Telegram notification to %s failed after %d attempts", chat_id, MAX_ATTEMPTS)
+
+
+async def send_telegram_notification(text: str) -> None:
+    from services.bot import get_authorized_users
+
+    token = os.getenv("TG_BOT_TOKEN", "")
+    if not token:
+        logger.warning("TG_BOT_TOKEN not set — skipping notification")
+        return
+
+    chat_ids = get_authorized_users()
+
+    # Фолбэк на TG_CHAT_ID если нет авторизованных пользователей
+    fallback = os.getenv("TG_CHAT_ID", "")
+    if not chat_ids and fallback:
+        chat_ids = {int(fallback)}
+
+    if not chat_ids:
+        logger.warning("No authorized recipients — skipping notification")
+        return
+
+    for chat_id in chat_ids:
+        await _send_to_chat(token, chat_id, text)

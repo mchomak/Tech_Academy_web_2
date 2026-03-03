@@ -184,6 +184,21 @@ img{display:block;max-width:100%;}
 .cta-actions{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;position:relative;z-index:1;}
 .cta-note{font-size:12px;color:var(--text3);margin-top:16px;}
 
+/* RELOCATION BUTTON */
+.btn-relocation{display:inline-block;margin-top:16px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:'Rubik',sans-serif;font-size:13px;font-weight:500;padding:10px 24px;border-radius:10px;cursor:pointer;transition:background .2s,color .2s;}
+.btn-relocation:hover{background:var(--accent);color:var(--bg);}
+
+/* RELOCATION MODAL */
+.relocation-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:20px;}
+.relocation-overlay.open{display:flex;}
+.relocation-modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:0;width:100%;max-width:500px;position:relative;overflow:hidden;animation:modalIn .35s ease-out;}
+.relocation-modal-close{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.5);color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;z-index:1;transition:background .2s;}
+.relocation-modal-close:hover{background:rgba(0,0,0,.7);}
+.relocation-modal-img{width:100%;height:220px;object-fit:cover;display:block;background:var(--surface2);}
+.relocation-modal-body{padding:28px 28px 32px;}
+.relocation-modal-body p{font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:14px;}
+.relocation-modal-body p:last-child{margin-bottom:0;color:var(--text);font-weight:500;}
+
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.open{display:flex;}
@@ -433,7 +448,7 @@ img{display:block;max-width:100%;}
   <div class="section-inner">
     <div class="reveal">
       <div class="section-eyebrow">Как проходит обучение</div>
-      <h2 class="section-title">4 этапа — от старта до<br><em>самостоятельного аналитика</em></h2>
+      <h2 class="section-title">5 этапов — от старта до<br><em>самостоятельного аналитика</em></h2>
       <p class="section-sub">Мы обучаем под реальный рынок, а не академический системный анализ.</p>
     </div>
 
@@ -459,6 +474,17 @@ img{display:block;max-width:100%;}
       <div class="stage-card">
         <div class="stage-header">
           <div class="stage-num">Этап 2</div>
+          <div class="stage-title">Временный переезд в Новосибирск</div>
+        </div>
+        <div class="stage-body">
+          <div class="stage-desc">Частично компенсируем билеты и квартиру. Куратор в офисе помогает пройти испытательный срок в компании, отвечает на вопросы, если нужно — заново на примере объясняет темы.</div>
+          <button class="btn-relocation" onclick="openRelocationModal()">Подробнее про переезд</button>
+        </div>
+      </div>
+
+      <div class="stage-card">
+        <div class="stage-header">
+          <div class="stage-num">Этап 3</div>
           <div class="stage-title">Поиск работы</div>
         </div>
         <div class="stage-body">
@@ -479,7 +505,7 @@ img{display:block;max-width:100%;}
 
       <div class="stage-card">
         <div class="stage-header">
-          <div class="stage-num">Этап 3</div>
+          <div class="stage-num">Этап 4</div>
           <div class="stage-title">Сопровождение после трудоустройства</div>
         </div>
         <div class="stage-body">
@@ -498,7 +524,7 @@ img{display:block;max-width:100%;}
 
       <div class="stage-card">
         <div class="stage-header">
-          <div class="stage-num">Этап 4</div>
+          <div class="stage-num">Этап 5</div>
           <div class="stage-title">Расчёт с академией и свободное плавание</div>
         </div>
         <div class="stage-body">
@@ -709,6 +735,19 @@ img{display:block;max-width:100%;}
   </div>
 </section>
 
+<!-- RELOCATION MODAL -->
+<div class="relocation-overlay" id="relocationOverlay">
+  <div class="relocation-modal">
+    <button class="relocation-modal-close" onclick="closeRelocationModal()">×</button>
+    <img class="relocation-modal-img" src="images/relocation.jpg" alt="Переезд в Новосибирск">
+    <div class="relocation-modal-body">
+      <p>Чтобы стать профессионалом, нужна не только теория, а живая практика и поддержка.</p>
+      <p>После получения работы мы приглашаем в наш офис, чтобы помочь пройти испытательный срок в компании, вовлечься во все задачи и не стрессовать от нового места работы.</p>
+      <p>Цель не просто устроить на проект, а сделать так, чтобы ученик работал на нем не один год после.</p>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
@@ -724,7 +763,6 @@ img{display:block;max-width:100%;}
         <option value="" disabled>Выберите курс</option>
         <option value="system-analyst" selected>Системный аналитик ISA</option>
         <option value="qa">QA-Тестировщик</option>
-        <option value="flutter">Flutter-разработчик</option>
       </select>
       <button type="submit" class="form-submit" id="submitBtn">
         <span class="btn-text">Отправить заявку</span>
@@ -751,7 +789,6 @@ img{display:block;max-width:100%;}
       <div class="footer-col-title">Курсы</div>
       <a href="course-analyst">Системный аналитик</a>
       <a href="course-qa">QA-Тестировщик</a>
-      <a href="course-flutter">Flutter-разработчик</a>
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Компания</div>
@@ -790,6 +827,19 @@ var revealObs = new IntersectionObserver(function(entries) {
 document.querySelectorAll('.reveal').forEach(function(el) { revealObs.observe(el); });
 function toggleModule(header) { header.parentElement.classList.toggle('open'); }
 function toggleFaq(q) { q.parentElement.classList.toggle('open'); }
+/* Relocation modal */
+function openRelocationModal() {
+  document.getElementById('relocationOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeRelocationModal() {
+  document.getElementById('relocationOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('relocationOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeRelocationModal();
+});
+
 function openModal() {
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -802,7 +852,7 @@ document.getElementById('modalOverlay').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Escape') { closeModal(); closeRelocationModal(); }
 });
 document.getElementById('leadForm').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -835,6 +885,20 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
     msg.className = 'form-message error';
   })
   .finally(function() { btn.disabled = false; btn.classList.remove('loading'); });
+});
+/* Safari bf-cache: fix blank screen after background/foreground */
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) {
+    document.body.style.display = 'none';
+    document.body.offsetHeight;
+    document.body.style.display = '';
+  }
+});
+document.addEventListener('visibilitychange', function() {
+  if (document.visibilityState === 'visible') {
+    document.body.style.opacity = '0.99';
+    requestAnimationFrame(function() { document.body.style.opacity = ''; });
+  }
 });
 </script>
 </body>
