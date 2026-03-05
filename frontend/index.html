@@ -741,6 +741,14 @@ input, select { font-family: 'Rubik', sans-serif; }
   transform: scale(1.1);
   box-shadow: 0 6px 28px rgba(34,158,217,0.6);
 }
+.mail-float {
+  bottom: 92px;
+  background: #3a3f51;
+  box-shadow: 0 4px 20px rgba(58,63,81,0.45);
+}
+.mail-float:hover {
+  box-shadow: 0 6px 28px rgba(58,63,81,0.6);
+}
 .tg-float svg {
   width: 26px; height: 26px; fill: #fff;
 }
@@ -1060,6 +1068,11 @@ h1,h2,h3,h4,h5,h6,
 </div>
 
 <!-- ═══ TELEGRAM FLOAT ═══ -->
+<a id="mail-float-link" href="#" target="_blank" rel="noopener noreferrer" class="tg-float mail-float" title="Написать на почту">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M3 6h18a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 2v.5l9 5.625L21 8.5V8l-9 5.625L3 8z"/>
+  </svg>
+</a>
 <a id="tg-float-link" href="#" target="_blank" class="tg-float" title="Написать в Telegram">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.008 9.463c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.12 14.051l-2.948-.924c-.64-.203-.655-.64.136-.948l11.52-4.44c.533-.194 1.003.13.734.51z"/>
@@ -1105,6 +1118,8 @@ h1,h2,h3,h4,h5,h6,
     // TG float button
     var tgFloat = document.getElementById('tg-float-link');
     if (tgFloat) tgFloat.href = SITE_CONFIG.telegram;
+    var mailFloat = document.getElementById('mail-float-link');
+    if (mailFloat) mailFloat.href = 'mailto:' + SITE_CONFIG.email;
     // Footer contacts
     var footerContacts = document.getElementById('footer-contacts-link');
     if (footerContacts) footerContacts.href = SITE_CONFIG.telegram;

@@ -220,6 +220,7 @@ img{display:block;max-width:100%;}
 /* TG FLOAT */
 .tg-float{position:fixed;bottom:28px;right:28px;width:52px;height:52px;background:#229ED9;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:1500;box-shadow:0 4px 20px rgba(34,158,217,.45);transition:transform .25s;}
 .tg-float:hover{transform:scale(1.1);}
+.mail-float{bottom:92px;background:#3a3f51;box-shadow:0 4px 20px rgba(58,63,81,.45);}
 .tg-float svg{width:26px;height:26px;fill:#fff;}
 
 /* FOOTER */
@@ -760,6 +761,9 @@ h1,h2,h3,h4,h5,h6,
 </div>
 
 <!-- TG FLOAT -->
+<a id="mail-float-link" href="#" target="_blank" rel="noopener noreferrer" class="tg-float mail-float" title="Написать на почту">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 2v.5l9 5.625L21 8.5V8l-9 5.625L3 8z"/></svg>
+</a>
 <a id="tg-float-link" href="#" target="_blank" class="tg-float" title="Написать в Telegram">
   <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.008 9.463c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.12 14.051l-2.948-.924c-.64-.203-.655-.64.136-.948l11.52-4.44c.533-.194 1.003.13.734.51z"/></svg>
 </a>
@@ -863,10 +867,15 @@ document.getElementById('leadForm').addEventListener('submit', function(e) {
 /* APPLY CONFIG */
 (function() {
   if (typeof SITE_CONFIG === 'undefined') return;
-  var ids = ['tg-float-link', 'cta-tg-link', 'footer-contacts-link'];
-  ids.forEach(function(id) {
+  var links = {
+    'tg-float-link': SITE_CONFIG.telegram,
+    'cta-tg-link': SITE_CONFIG.telegram,
+    'footer-contacts-link': SITE_CONFIG.telegram,
+    'mail-float-link': 'mailto:' + SITE_CONFIG.email
+  };
+  Object.keys(links).forEach(function(id) {
     var el = document.getElementById(id);
-    if (el) el.href = SITE_CONFIG.telegram;
+    if (el) el.href = links[id];
   });
   var privacy = document.getElementById('footer-privacy-link');
   if (privacy) privacy.href = SITE_CONFIG.privacyPolicy;
