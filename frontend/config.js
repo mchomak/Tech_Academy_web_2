@@ -10,7 +10,7 @@ const SITE_CONFIG = {
   telegramUsername: '@techrisehelp',               // ← отображаемый ник
 
   /* Email */
-  email: 'info@TechRiseAcademy.ru',
+  email: 'info@techrise.ru',
 
   /* Документы */
   privacyPolicy: '#',                       // ← ссылка на политику конфиденциальности
