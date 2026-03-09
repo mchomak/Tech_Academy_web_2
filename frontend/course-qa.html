@@ -204,6 +204,7 @@ img{display:block;max-width:100%;}
 .form-input,.form-select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:15px 18px;font-size:14px;font-family:'Rubik',sans-serif;color:var(--text);outline:none;transition:border-color .25s;}
 .form-input::placeholder{color:var(--text3);}
 .form-input:focus,.form-select:focus{border-color:var(--accent);}
+.form-input.invalid,.form-select.invalid{border-color:#ff6b6b;box-shadow:0 0 0 1px rgba(255,107,107,.2);}
 .form-select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%238888A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 18px center;cursor:pointer;}
 .form-select option{background:var(--surface);color:var(--text);}
 .form-submit{width:100%;background:var(--accent);color:var(--bg);font-family:'Rubik',sans-serif;font-size:15px;font-weight:500;padding:16px;border-radius:12px;transition:opacity .25s;position:relative;margin-top:4px;border:none;cursor:pointer;}
@@ -831,37 +832,63 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModal();
 });
 
-document.getElementById('leadForm').addEventListener('submit', function(e) {
+var leadForm = document.getElementById('leadForm');
+var formMsg = document.getElementById('formMessage');
+var submitBtn = document.getElementById('submitBtn');
+
+function markInvalid(el) { if (el) el.classList.add('invalid'); }
+function clearInvalid(el) { if (el) el.classList.remove('invalid'); }
+
+[leadForm.name, leadForm.phone, leadForm.email, leadForm.telegram, leadForm.course].forEach(function(el) {
+  if (!el) return;
+  el.addEventListener('input', function() { clearInvalid(el); });
+  el.addEventListener('change', function() { clearInvalid(el); });
+});
+
+leadForm.addEventListener('submit', function(e) {
   e.preventDefault();
-  var msg = document.getElementById('formMessage');
-  msg.className = 'form-message';
-  var name = this.name.value.trim();
-  var phone = this.phone.value.trim();
-  var course = this.course.value;
-  if (!name || !phone || !course) {
-    msg.textContent = 'Заполните имя, телефон и выберите курс.';
-    msg.className = 'form-message error';
+  formMsg.className = 'form-message';
+
+  var name = leadForm.name.value.trim();
+  var phone = leadForm.phone.value.trim();
+  var email = leadForm.email.value.trim();
+  var telegram = leadForm.telegram.value.trim();
+  var course = leadForm.course.value;
+
+  var hasError = false;
+  [leadForm.name, leadForm.phone, leadForm.email, leadForm.telegram, leadForm.course].forEach(clearInvalid);
+
+  if (!name) { markInvalid(leadForm.name); hasError = true; }
+  if (!/^\+?[0-9()\-\s]{10,}$/.test(phone)) { markInvalid(leadForm.phone); hasError = true; }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { markInvalid(leadForm.email); hasError = true; }
+  if (telegram && !/^@?[a-zA-Z0-9_]{5,32}$/.test(telegram)) { markInvalid(leadForm.telegram); hasError = true; }
+  if (!course) { markInvalid(leadForm.course); hasError = true; }
+
+  if (hasError) {
+    formMsg.textContent = 'Данные заполнены некорректно. Проверьте поля, выделенные красным.';
+    formMsg.className = 'form-message error';
     return;
   }
-  var btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.classList.add('loading');
+
+  submitBtn.disabled = true; submitBtn.classList.add('loading');
   fetch('/api/lead', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({name:name, phone:phone, email:this.email.value.trim(), telegram:this.telegram.value.trim(), course:course})
+    body: JSON.stringify({name:name, phone:phone, email:email, telegram:telegram, course:course})
   })
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function() {
-    msg.textContent = '✅ Заявка принята! Свяжемся с вами в ближайшее время.';
-    msg.className = 'form-message success';
-    document.getElementById('leadForm').reset();
+    formMsg.textContent = '✅ Заявка принята! Свяжемся с вами в ближайшее время.';
+    formMsg.className = 'form-message success';
+    leadForm.reset();
+    [leadForm.name, leadForm.phone, leadForm.email, leadForm.telegram, leadForm.course].forEach(clearInvalid);
     setTimeout(closeModal, 2500);
   })
   .catch(function() {
-    msg.textContent = 'Не удалось отправить. Попробуйте позже.';
-    msg.className = 'form-message error';
+    formMsg.textContent = 'Ошибка отправки. Попробуйте позже.';
+    formMsg.className = 'form-message error';
   })
-  .finally(function() { btn.disabled = false; btn.classList.remove('loading'); });
+  .finally(function() { submitBtn.disabled = false; submitBtn.classList.remove('loading'); });
 });
 
 /* APPLY CONFIG */

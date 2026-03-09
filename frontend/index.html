@@ -679,6 +679,11 @@ input, select { font-family: 'Rubik', sans-serif; }
 .form-input::placeholder { color: var(--text3); }
 .form-input:focus,
 .form-select:focus { border-color: var(--accent); }
+.form-input.invalid,
+.form-select.invalid {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 1px rgba(255,107,107,0.2);
+}
 .form-select {
   appearance: none;
   -webkit-appearance: none;
@@ -1222,16 +1227,36 @@ h1,h2,h3,h4,h5,h6,
   var submitBtn = document.getElementById('submitBtn');
   var formMessage = document.getElementById('formMessage');
 
+  function markInvalid(el) { if (el) el.classList.add('invalid'); }
+  function clearInvalid(el) { if (el) el.classList.remove('invalid'); }
+
+  [form.name, form.phone, form.email, form.telegram, form.course].forEach(function(el) {
+    if (!el) return;
+    el.addEventListener('input', function() { clearInvalid(el); });
+    el.addEventListener('change', function() { clearInvalid(el); });
+  });
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     formMessage.className = 'form-message';
 
     var name = form.name.value.trim();
     var phone = form.phone.value.trim();
+    var email = form.email ? form.email.value.trim() : '';
+    var telegram = form.telegram ? form.telegram.value.trim() : '';
     var course = form.course.value;
 
-    if (!name || !phone || !course) {
-      showMsg('error', 'Пожалуйста, заполните имя, телефон и выберите курс.');
+    var hasError = false;
+    [form.name, form.phone, form.email, form.telegram, form.course].forEach(clearInvalid);
+
+    if (!name) { markInvalid(form.name); hasError = true; }
+    if (!/^\+?[0-9()\-\s]{10,}$/.test(phone)) { markInvalid(form.phone); hasError = true; }
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { markInvalid(form.email); hasError = true; }
+    if (telegram && !/^@?[a-zA-Z0-9_]{5,32}$/.test(telegram)) { markInvalid(form.telegram); hasError = true; }
+    if (!course) { markInvalid(form.course); hasError = true; }
+
+    if (hasError) {
+      showMsg('error', 'Данные заполнены некорректно. Проверьте поля, выделенные красным.');
       return;
     }
 
@@ -1241,21 +1266,16 @@ h1,h2,h3,h4,h5,h6,
     fetch('/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: name,
-        phone: phone,
-        email: form.email ? form.email.value.trim() : '',
-        telegram: form.telegram ? form.telegram.value.trim() : '',
-        course: course
-      })
+      body: JSON.stringify({ name: name, phone: phone, email: email, telegram: telegram, course: course })
     })
     .then(function(res) { if (!res.ok) throw new Error(); return res.json(); })
     .then(function() {
       showMsg('success', '✅ Заявка отправлена! Свяжемся с вами в ближайшее время.');
       form.reset();
+      [form.name, form.phone, form.email, form.telegram, form.course].forEach(clearInvalid);
       setTimeout(closeModal, 2500);
     })
-    .catch(function() { showMsg('error', 'Не удалось отправить заявку. Попробуйте позже.'); })
+    .catch(function() { showMsg('error', 'Ошибка отправки. Попробуйте позже.'); })
     .finally(function() { submitBtn.disabled = false; submitBtn.classList.remove('loading'); });
   });
 
