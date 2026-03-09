@@ -679,6 +679,11 @@ input, select { font-family: 'Rubik', sans-serif; }
 .form-input::placeholder { color: var(--text3); }
 .form-input:focus,
 .form-select:focus { border-color: var(--accent); }
+.form-input.invalid,
+.form-select.invalid {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 1px rgba(255,107,107,0.2);
+}
 .form-select {
   appearance: none;
   -webkit-appearance: none;
@@ -740,6 +745,14 @@ input, select { font-family: 'Rubik', sans-serif; }
 .tg-float:hover {
   transform: scale(1.1);
   box-shadow: 0 6px 28px rgba(34,158,217,0.6);
+}
+.mail-float {
+  bottom: 92px;
+  background: #3a3f51;
+  box-shadow: 0 4px 20px rgba(58,63,81,0.45);
+}
+.mail-float:hover {
+  box-shadow: 0 6px 28px rgba(58,63,81,0.6);
 }
 .tg-float svg {
   width: 26px; height: 26px; fill: #fff;
@@ -1043,7 +1056,7 @@ h1,h2,h3,h4,h5,h6,
     <form id="leadForm" class="modal-fields" novalidate>
       <input type="text" class="form-input" name="name" placeholder="Ваше имя" required autocomplete="name">
       <input type="tel" class="form-input" name="phone" placeholder="Телефон" required autocomplete="tel">
-      <input type="email" class="form-input" name="email" placeholder="Email" autocomplete="email">
+      <input type="email" class="form-input" name="email" placeholder="Email" autocomplete="email" required>
       <input type="text" class="form-input" name="telegram" placeholder="Telegram (@ник)" autocomplete="off">
       <select class="form-select" name="course" required>
         <option value="" disabled selected>Выберите курс</option>
@@ -1060,6 +1073,11 @@ h1,h2,h3,h4,h5,h6,
 </div>
 
 <!-- ═══ TELEGRAM FLOAT ═══ -->
+<a id="mail-float-link" href="#" target="_blank" rel="noopener noreferrer" class="tg-float mail-float" title="Написать на почту">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M3 6h18a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 2v.5l9 5.625L21 8.5V8l-9 5.625L3 8z"/>
+  </svg>
+</a>
 <a id="tg-float-link" href="#" target="_blank" class="tg-float" title="Написать в Telegram">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.008 9.463c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.12 14.051l-2.948-.924c-.64-.203-.655-.64.136-.948l11.52-4.44c.533-.194 1.003.13.734.51z"/>
@@ -1105,6 +1123,8 @@ h1,h2,h3,h4,h5,h6,
     // TG float button
     var tgFloat = document.getElementById('tg-float-link');
     if (tgFloat) tgFloat.href = SITE_CONFIG.telegram;
+    var mailFloat = document.getElementById('mail-float-link');
+    if (mailFloat) mailFloat.href = 'mailto:' + SITE_CONFIG.email;
     // Footer contacts
     var footerContacts = document.getElementById('footer-contacts-link');
     if (footerContacts) footerContacts.href = SITE_CONFIG.telegram;
@@ -1207,16 +1227,37 @@ h1,h2,h3,h4,h5,h6,
   var submitBtn = document.getElementById('submitBtn');
   var formMessage = document.getElementById('formMessage');
 
+  function markInvalid(el) { if (el) el.classList.add('invalid'); }
+  function clearInvalid(el) { if (el) el.classList.remove('invalid'); }
+
+  [form.name, form.phone, form.email, form.telegram, form.course].forEach(function(el) {
+    if (!el) return;
+    el.addEventListener('input', function() { clearInvalid(el); });
+    el.addEventListener('change', function() { clearInvalid(el); });
+  });
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     formMessage.className = 'form-message';
 
     var name = form.name.value.trim();
     var phone = form.phone.value.trim();
+    var email = form.email ? form.email.value.trim() : '';
+    var telegram = form.telegram ? form.telegram.value.trim() : '';
     var course = form.course.value;
 
-    if (!name || !phone || !course) {
-      showMsg('error', 'Пожалуйста, заполните имя, телефон и выберите курс.');
+    var hasError = false;
+    [form.name, form.phone, form.email, form.telegram, form.course].forEach(clearInvalid);
+
+    if (!name) { markInvalid(form.name); hasError = true; }
+    var phoneDigits = phone.replace(/\D/g, '');
+    if (!/^\d{10,11}$/.test(phoneDigits)) { markInvalid(form.phone); hasError = true; }
+    if (!email || email.indexOf('@') === -1 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { markInvalid(form.email); hasError = true; }
+    if (telegram && !/^@?[a-zA-Z0-9_]{5,32}$/.test(telegram)) { markInvalid(form.telegram); hasError = true; }
+    if (!course) { markInvalid(form.course); hasError = true; }
+
+    if (hasError) {
+      showMsg('error', 'Данные заполнены некорректно. Проверьте поля, выделенные красным: email должен содержать @, телефон — 10–11 цифр.');
       return;
     }
 
@@ -1226,21 +1267,16 @@ h1,h2,h3,h4,h5,h6,
     fetch('/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: name,
-        phone: phone,
-        email: form.email ? form.email.value.trim() : '',
-        telegram: form.telegram ? form.telegram.value.trim() : '',
-        course: course
-      })
+      body: JSON.stringify({ name: name, phone: phone, email: email, telegram: telegram, course: course })
     })
     .then(function(res) { if (!res.ok) throw new Error(); return res.json(); })
     .then(function() {
       showMsg('success', '✅ Заявка отправлена! Свяжемся с вами в ближайшее время.');
       form.reset();
+      [form.name, form.phone, form.email, form.telegram, form.course].forEach(clearInvalid);
       setTimeout(closeModal, 2500);
     })
-    .catch(function() { showMsg('error', 'Не удалось отправить заявку. Попробуйте позже.'); })
+    .catch(function() { showMsg('error', 'Ошибка отправки. Попробуйте позже.'); })
     .finally(function() { submitBtn.disabled = false; submitBtn.classList.remove('loading'); });
   });
 
