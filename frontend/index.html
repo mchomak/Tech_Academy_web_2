@@ -1056,7 +1056,7 @@ h1,h2,h3,h4,h5,h6,
     <form id="leadForm" class="modal-fields" novalidate>
       <input type="text" class="form-input" name="name" placeholder="Ваше имя" required autocomplete="name">
       <input type="tel" class="form-input" name="phone" placeholder="Телефон" required autocomplete="tel">
-      <input type="email" class="form-input" name="email" placeholder="Email" autocomplete="email">
+      <input type="email" class="form-input" name="email" placeholder="Email" autocomplete="email" required>
       <input type="text" class="form-input" name="telegram" placeholder="Telegram (@ник)" autocomplete="off">
       <select class="form-select" name="course" required>
         <option value="" disabled selected>Выберите курс</option>
@@ -1250,13 +1250,14 @@ h1,h2,h3,h4,h5,h6,
     [form.name, form.phone, form.email, form.telegram, form.course].forEach(clearInvalid);
 
     if (!name) { markInvalid(form.name); hasError = true; }
-    if (!/^\+?[0-9()\-\s]{10,}$/.test(phone)) { markInvalid(form.phone); hasError = true; }
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { markInvalid(form.email); hasError = true; }
+    var phoneDigits = phone.replace(/\D/g, '');
+    if (!/^\d{10,11}$/.test(phoneDigits)) { markInvalid(form.phone); hasError = true; }
+    if (!email || email.indexOf('@') === -1 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { markInvalid(form.email); hasError = true; }
     if (telegram && !/^@?[a-zA-Z0-9_]{5,32}$/.test(telegram)) { markInvalid(form.telegram); hasError = true; }
     if (!course) { markInvalid(form.course); hasError = true; }
 
     if (hasError) {
-      showMsg('error', 'Данные заполнены некорректно. Проверьте поля, выделенные красным.');
+      showMsg('error', 'Данные заполнены некорректно. Проверьте поля, выделенные красным: email должен содержать @, телефон — 10–11 цифр.');
       return;
     }
 

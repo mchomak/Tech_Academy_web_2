@@ -745,7 +745,7 @@ h1,h2,h3,h4,h5,h6,
     <form id="leadForm" class="modal-fields" novalidate>
       <input type="text" class="form-input" name="name" placeholder="Ваше имя" required>
       <input type="tel" class="form-input" name="phone" placeholder="Телефон" required>
-      <input type="email" class="form-input" name="email" placeholder="Email">
+      <input type="email" class="form-input" name="email" placeholder="Email" required>
       <input type="text" class="form-input" name="telegram" placeholder="Telegram (@ник)">
       <select class="form-select" name="course" required>
         <option value="" disabled>Выберите курс</option>
@@ -859,13 +859,14 @@ leadForm.addEventListener('submit', function(e) {
   [leadForm.name, leadForm.phone, leadForm.email, leadForm.telegram, leadForm.course].forEach(clearInvalid);
 
   if (!name) { markInvalid(leadForm.name); hasError = true; }
-  if (!/^\+?[0-9()\-\s]{10,}$/.test(phone)) { markInvalid(leadForm.phone); hasError = true; }
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { markInvalid(leadForm.email); hasError = true; }
+  var phoneDigits = phone.replace(/\D/g, '');
+  if (!/^\d{10,11}$/.test(phoneDigits)) { markInvalid(leadForm.phone); hasError = true; }
+  if (!email || email.indexOf('@') === -1 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { markInvalid(leadForm.email); hasError = true; }
   if (telegram && !/^@?[a-zA-Z0-9_]{5,32}$/.test(telegram)) { markInvalid(leadForm.telegram); hasError = true; }
   if (!course) { markInvalid(leadForm.course); hasError = true; }
 
   if (hasError) {
-    formMsg.textContent = 'Данные заполнены некорректно. Проверьте поля, выделенные красным.';
+    formMsg.textContent = 'Данные заполнены некорректно. Проверьте поля, выделенные красным: email должен содержать @, телефон — 10–11 цифр.';
     formMsg.className = 'form-message error';
     return;
   }
