@@ -5,6 +5,7 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel, field_validator
 
 from services.telegram import send_telegram_notification
+from services.email import send_email_notification
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +63,21 @@ async def create_lead(lead: LeadRequest, background_tasks: BackgroundTasks):
         f"\U0001f550 Время: {now}"
     )
 
+    # Email version with HTML formatting
+    email_body = f"""
+    <html>
+      <body style="font-family: Arial, sans-serif; color: #333;">
+        <h2 style="color: #0D0D0F;">🔥 Новая заявка!</h2>
+        <p><strong>Имя:</strong> {lead.name}</p>
+        <p><strong>Телефон:</strong> {lead.phone}</p>
+        <p><strong>Telegram:</strong> {lead.telegram}</p>
+        <p><strong>Курс:</strong> {lead.course}</p>
+        <p><strong>Время:</strong> {now}</p>
+      </body>
+    </html>
+    """
+
     background_tasks.add_task(send_telegram_notification, text)
+    background_tasks.add_task(send_email_notification, "Новая заявка на курс", email_body)
 
     return {"status": "ok", "message": "Заявка принята"}
