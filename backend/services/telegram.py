@@ -76,7 +76,7 @@ async def send_telegram_notification(text: str) -> None:
     # Фолбэк на TG_CHAT_ID если нет авторизованных пользователей
     fallback = os.getenv("TG_CHAT_ID", "")
     if not chat_ids and fallback:
-        chat_ids = {int(fallback)}
+        chat_ids = {int(cid.strip()) for cid in fallback.split(",") if cid.strip()}
 
     if not chat_ids:
         logger.warning("No authorized recipients — skipping notification")
